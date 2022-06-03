@@ -23,13 +23,13 @@ In the left navigation, click "Compute" and click the "+ New" button to create a
 
 Once your compute is ready, select the VS Code link
 
-![vscode]](docs/assets/compute.png)
+![vscode](docs/assets/compute.png)
 
 ## Create conda environment on your compute instance
 
 VSCode will open - make sure you see your compute and workspace in the task bar and that you have the proper extensions installed (see prerequisites.) Sign in to Azure in VS code if prompted to do so.
 
-![remote](doc/assets/remote-and-ws.png)
+![remote](docs/assets/remote-and-ws.png)
 
 Make sure you have this repository cloned. 
 
