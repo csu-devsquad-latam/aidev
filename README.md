@@ -43,7 +43,7 @@ conda env create -f azureml_py38_dev.yml
 
 This will take about 30 minutess to create a new environment described by `azureml_py38_dev.yml`. 
 
-If `conda` notifies to do an update, consider updating `conda`. Within that message, it will give command such as
+This repo is tested with `conda==4.13.0`. If `conda` notifies to do an update, consider updating `conda`. Within that message, it will give command such as
 
 ```
 conda update -n base -c defaults conda
