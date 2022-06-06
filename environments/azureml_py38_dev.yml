@@ -246,7 +246,6 @@ dependencies:
     - azureml-pipeline-core==1.40.0
     - azureml-pipeline-steps==1.40.0
     - azureml-responsibleai==1.40.0
-    - azureml-samples==0+unknown
     - azureml-sdk==1.40.0
     - azureml-telemetry==1.40.0
     - azureml-tensorboard==1.40.0
@@ -284,7 +283,6 @@ dependencies:
     - colorlover==0.3.0
     - configparser==3.7.4
     - contextlib2==21.6.0
-    - coremltools==2.1.0
     - cramjam==2.5.0
     - cryptography==36.0.2
     - cufflinks==0.17.3
@@ -309,7 +307,6 @@ dependencies:
     - dotnetcore2==2.1.23
     - dowhy==0.7.1
     - econml==0.12.0
-    - en-core-web-sm==2.1.0
     - encrypted-inference==0.9
     - entrypoints==0.4
     - environments-utils==1.0.3
