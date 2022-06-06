@@ -33,6 +33,12 @@ VSCode will open - make sure you see your compute and workspace in the task bar 
 
 Clone this [repository](https://github.com/csu-devsquad-latam/aidev-mlops).
 
+Open your terminal window and run this command:
+
+```
+sudo chmod -R 777 /anaconda/pkgs
+```
+
 Go to `aidev-mlops/environments/`, you will find the conda environment file named, `azureml_py38_dev.yml`. 
 
 In this folder, run these commands:
@@ -65,6 +71,4 @@ conda activate azureml_py38_dev
 
 Note that this procedure can also be done on the terminal within the AML studio.
 
-
-
-
+Note also that you may have to close and re-open your VSCode session in order for your new conda environment to appear as a selectable Kernel in Jupyter Notebooks.
