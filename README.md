@@ -39,9 +39,9 @@ Open your terminal window and run this command:
 sudo chmod -R 777 /anaconda/pkgs
 ```
 
-Go to `aidev-mlops/environments/`, you will find the conda environment file named, `azureml_py38_dev.yml`. 
+Change directories to `.aml/environments/`, you will find the conda environment file named, `azureml_py38_dev.yml`. 
 
-In this folder, run these commands:
+In this directory, run this commands:
 
 ```
 conda env create -f azureml_py38_dev.yml
@@ -72,3 +72,9 @@ conda activate azureml_py38_dev
 Note that this procedure can also be done on the terminal within the AML studio.
 
 Note also that you may have to close and re-open your VSCode session in order for your new conda environment to appear as a selectable Kernel in Jupyter Notebooks.
+
+## Open and follow notebooks
+
+n VS code, open notebooks/00-explore-data-00.ipynb. In the upper right of VS Code, click on "Select Kernel" and choose the environment you just created in the previous step (azureml_py38_dev). If you encounter any issues creating the environment, you can just use the azureml_py38 environment.
+
+Follow the notebooks in order and follow instructions there.
