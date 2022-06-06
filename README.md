@@ -31,26 +31,33 @@ VSCode will open - make sure you see your compute and workspace in the task bar 
 
 ![remote](docs/assets/remote-and-ws.png)
 
-Make sure you have this repository cloned. 
+Clone this [repository](https://github.com/csu-devsquad-latam/aidev-mlops).
 
-Under your user directory, create a new folder called "environments" and drag the repository files: 
+Go to `aidev-mlops/environments/`, you will find the conda environment file named, `azureml_py38_dev.yml`. 
 
-.aml/environments/conda_dependencies.yml
-.aml/environments/environment.yml
-
-into the folder.
-
-Now open your terminal window.
-
-Change directories to User/[your username]/environments
-
-Run these commands: 
+In this folder, run these commands:
 
 ```
-conda env create --name transformers-torch-19-dev -f conda_dependencies.yml
-conda activate transformers-torch-19-dev
-python -c "import torch; print(torch.__version__)"
+conda env create -f azureml_py38_dev.yml
 ```
+
+This will take about 30 minutess to create a new environment described by `azureml_py38_dev.yml`. 
+
+Once the installation is complete, run the following command to check that the newly created environment exists.
+
+```
+conda env list
+```
+
+If it exists, you would see the environment named `azureml_py38_dev` listed.
+
+To activate the environment, 
+
+```
+conda activate azureml_py38_dev
+```
+
+Note that this procedure can also be done on the terminal within the AML studio.
 
 
 
