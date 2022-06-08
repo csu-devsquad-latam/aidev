@@ -4,20 +4,28 @@
 
 This workflow expects a secret containing azure credentials to be present in your repository.
 
-To generate these credentials, follow these instructions to create a federated identity credential:
-https://docs.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation-create-trust-github?tabs=azure-portal
+To generate these credentials, follow these instructions to create the json output you will need to add to your repository secret.
 
-Once you have created your application, make sure the application has contributor access to your subscription:
-https://docs.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal?tabs=current#prerequisites
+Make sure you have the latest version of the azure cli: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
 
-Navigate to your repository and create an environment called "dev" or whatever name you would like for your development environment.
 
-Add three environment secrets:
+   az ad sp create-for-rbac --name "myApp" --role contributor \
+                            --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} \
+                            --sdk-auth
+                            
+  * Replace {subscription-id}, {resource-group} with the subscription, resource group details
 
-![secrets](assets/environment-secrets.png)
+  * The command should output a JSON object similar to this:
 
-Client Id and Tenant Id can be found in the properties of you application and subscription Id can be found by searching the portal for "Subscription." You will add the subscription Id of the subscription you added your application to as a contributor role.
+ 
+  {
+    "clientId": "<GUID>",
+    "clientSecret": "<STRING>",
+    "subscriptionId": "<GUID>",
+    "tenantId": "<GUID>",
+    "resourceManagerEndpointUrl": "<URL>"
+    (...)
+  }
+  
 
-![app](assets/app-properties.png)
-
-![sub](assets/subscription.png)
+Add a repository secret called AZURE_CREDENTIALS and paste the json output as the value of the secret.
