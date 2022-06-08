@@ -38,12 +38,12 @@ jobs:
       - name: Building environment
         uses: ./.github/actions/aml-env-build
         with:
-          envFile: environments/*/environment.yml
+          envFile: environments/azure_py38_dev.yml
       
       - name: Ensuring environment
         uses: ./.github/actions/aml-env-ensure
         with:
-          envFile: .aml/environments/*/environment.yml
+          envFile: .aml/environments/environments/azure_py38_dev.yml
           validateOnly: true
           failOnMissing: false
           workspaceName: ${WORKSPACENAME}
