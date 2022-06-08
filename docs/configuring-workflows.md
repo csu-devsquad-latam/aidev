@@ -17,7 +17,7 @@ Make sure you have the latest version of the azure cli: https://docs.microsoft.c
 
   * The command should output a JSON object similar to this:
 
- 
+ ```json
   {
     "clientId": "<GUID>",
     "clientSecret": "<STRING>",
@@ -26,6 +26,9 @@ Make sure you have the latest version of the azure cli: https://docs.microsoft.c
     "resourceManagerEndpointUrl": "<URL>"
     (...)
   }
+  ```
   
 
 Add a repository secret called AZURE_CREDENTIALS and paste the json output as the value of the secret.
+
+![vscode](assets/repo-secret.png)
