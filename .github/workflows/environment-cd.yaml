@@ -1,14 +1,14 @@
-name: environment-CI
+name: environment-CD
 
 on:
   workflow_dispatch:
-  pull_request:
+  push:
     branches: [ main ]
-    paths:
-      - .aml/environments/**
+    # paths:
+    # - .aml/environments/**
 
 jobs:
-  integration:
+  deployment:
     environment: dev
     runs-on: ubuntu-latest
 
@@ -38,16 +38,14 @@ jobs:
       - name: Building environment
         uses: ./.github/actions/aml-env-build
         with:
-          # envFile: .aml/environments/azureml_py38_dev.yml
           envFile: .aml/environments/*/environment.yml
       
+      # this is called ensure environment but if validateOnly = false, it will deploy
       - name: Ensuring environment
         uses: ./.github/actions/aml-env-ensure
         with:
-          # envFile: .aml/environments/azureml_py38_dev.yml
           envFile: .aml/environments/*/environment.yml
-          validateOnly: true
-          failOnMissing: false
+          validateOnly: false
           workspaceName: ${WORKSPACENAME}
           resourceGroup: ${RESOURCEGROUPNAME}
       
