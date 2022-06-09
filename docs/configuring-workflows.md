@@ -8,11 +8,12 @@ To generate these credentials, follow these instructions to create the json outp
 
 Make sure you have the latest version of the azure cli: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
 
-
+```bash
    az ad sp create-for-rbac --name "myApp" --role contributor \
-                            --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} \
-                            --sdk-auth
-                            
+    --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} \
+    --sdk-auth
+```
+
   * Replace {subscription-id}, {resource-group} with the subscription, resource group details
 
   * The command should output a JSON object similar to this:
