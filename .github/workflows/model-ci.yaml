@@ -5,7 +5,6 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-    - .aml/jobs/**
     - src/**
 
 jobs:
@@ -55,3 +54,12 @@ jobs:
           useConda: true
           condaEnvName: ${CONDAENVNAME}
           disable: W1203,C0103,C0303,W0603,W0632,R0801,R0913, 
+
+      - name: Running unit tests
+        uses: ./.github/actions/azure-pytest-run
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          source: src
+          useConda: true
+          condaEnvName: ${CONDAENVNAME}
+          params: -q --ws-config-file="workspace.config.json"
