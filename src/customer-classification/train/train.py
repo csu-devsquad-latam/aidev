@@ -2,7 +2,6 @@ from cgi import test
 from sklearn.preprocessing import PowerTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.cluster import MiniBatchKMeans
-from azureml.core.run import Run
 import mlflow
 from mlflow.models import infer_signature
 import mlflow.sklearn
@@ -10,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 # setup the run
-run = Run.get_context()
+# run = Run.get_context()
 
 # define and configure transformer
 ptransformer = PowerTransformer(method="yeo-johnson")
@@ -46,18 +45,16 @@ pipeline = Pipeline(steps=[('ptransformer', ptransformer), ('mini-batch-k-means'
 # create the model
 pipeline.fit(test_data)
 
-# save the model
-# save model 
-mlflow.sklearn.log_model(km, "customer-profile-using-pipeline", signature=signature)
+# log the model
+test = mlflow.sklearn.log_model(km, "model", signature=signature)
 
 # get the model
-run_id = run.info.run_id; run_id
+run_id = test.run_id
 pipeline_model = mlflow.sklearn.load_model(f"runs:/{run_id}/model")
 
-# run the model
+# # run the model
 x = pipeline_model.predict(test_data)
 
 # log
-run.log('x data set is: ', test_data)
-run.log('y prediction is: ', x)
+print(x)
 
