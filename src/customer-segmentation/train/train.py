@@ -1,6 +1,5 @@
 """
 This python module creates and trains a customer segmentation model.
-It uses a file in the repository for training data.
 """
 
 from sklearn.preprocessing import PowerTransformer
