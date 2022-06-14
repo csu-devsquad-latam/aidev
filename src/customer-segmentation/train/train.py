@@ -22,7 +22,7 @@ import pandas as pd
 ptransformer = PowerTransformer(method="yeo-johnson")
 
 # load training dataset
-test_data = pd.read_csv("../../../.aml/data/online-retail-frm.csv")
+test_data = pd.read_csv(".aml/data/online-retail-frm.csv")
 
 # Example input and output
 model_output = np.array([0, 2]) # example output, i.e. cluster label
