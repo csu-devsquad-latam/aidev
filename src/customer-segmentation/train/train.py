@@ -1,5 +1,7 @@
-from cgi import test
-from pyexpat import model
+"""
+This python module creates and trains a customer segmentation model.
+"""
+
 from sklearn.preprocessing import PowerTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.cluster import MiniBatchKMeans
@@ -10,15 +12,17 @@ import numpy as np
 import pandas as pd
 
 # To run this file locally, run the following commands:
-# conda env create --name transformers-torch-19-dev -f .aml/environments/transformers-torch-19-dev/conda_dependencies.yml
+# conda env create --name transformers-torch-19-dev -f \
+# .aml/environments/transformers-torch-19-dev/conda_dependencies.yml
 # conda activate transformers-torch-19-dev
-# bring up your command palette (control-shift-p) and then type "python: debug" select "Python: Debug Python File"
+# bring up your command palette (control-shift-p) and then type
+# "python: debug" select "Python: Debug Python File"
 
 # define and configure transformer
 ptransformer = PowerTransformer(method="yeo-johnson")
 
-# load training dataset 
-test_data = pd.read_csv(".aml/data/online-retail-frm-train.csv")
+# load training dataset
+test_data = pd.read_csv("../../../.aml/data/online-retail-frm.csv")
 
 # Example input and output
 model_output = np.array([0, 2]) # example output, i.e. cluster label
@@ -28,8 +32,8 @@ model_input = test_data.iloc[0:2]
 signature = infer_signature(model_input=model_input, model_output=model_output)
 
 # Define and configure kmeans model with two step pipeline
-n_clusters = 4
-km = MiniBatchKMeans(n_clusters=n_clusters,
+N_CLUSTERS = 4
+km = MiniBatchKMeans(n_clusters=N_CLUSTERS,
                      random_state=9,
                      batch_size=len(test_data),
                      max_iter=100)
@@ -60,4 +64,3 @@ test = mlflow.sklearn.log_model(km, "model", signature=signature)
 
 # # log
 # print(x)
-
