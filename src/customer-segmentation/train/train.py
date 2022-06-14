@@ -2,6 +2,7 @@
 This python module creates and trains a customer segmentation model.
 """
 
+from azureml.core import Workspace, Dataset, Run
 from sklearn.preprocessing import PowerTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.cluster import MiniBatchKMeans
@@ -9,7 +10,6 @@ import mlflow
 from mlflow.models import infer_signature
 import mlflow.sklearn
 import numpy as np
-import pandas as pd
 
 # To run this file locally, run the following commands:
 # conda env create --name transformers-torch-19-dev -f \
@@ -22,7 +22,15 @@ import pandas as pd
 ptransformer = PowerTransformer(method="yeo-johnson")
 
 # load training dataset
-test_data = pd.read_csv(".aml/data/online-retail-frm.csv")
+# Get workspace configuration
+run = Run.get_context()
+workspace = run.experiment.workspace
+
+# Get a dataset by name
+ds = Dataset.get_by_name(workspace=workspace, name='online-retail-frm-train')
+
+# Load a TabularDataset into pandas DataFrame
+test_data = ds.to_pandas_dataframe()
 
 # Example input and output
 model_output = np.array([0, 2]) # example output, i.e. cluster label
