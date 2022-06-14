@@ -1,0 +1,80 @@
+name: Submitting job
+description: 'Creates and submit a new job to Azure ML based on a job configuration. Jobs are named using the provided job name and a unique run id returned by GitHub.'
+
+inputs:
+  name:
+    description: 'Name of the job to be created. Note that the final name of the job will be the given name followed by the number of the build run `github.run_id`. Thhis value is provided as an output.'
+    required: true
+  jobFile:
+    description: 'Path to the job file.'
+    required: true
+  useGitMessageForName:
+    description: 'Indicates if git message should be used for the commit message (experimental)'
+    required: true
+    default: 'true'
+  workspaceName:
+    description: 'Name of the workspace to work against.'
+    required: true
+  resourceGroup:
+    description: 'Name of the resource group where the workspace is placed.'
+    required: true
+  noWait:
+    description: 'Indicates if the action should not wait for the job to finish.'
+    required: false
+    default: 'false'
+
+outputs:
+  jobName:
+    description: Name of the job name created in the workspace.
+    value: ${{ steps.jobRun.outputs.jobName }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Deploying endpoint
+      id: jobRun
+      shell: bash
+      run: |
+        JOB_NAME="${{ inputs.name }}-${{ github.run_id }}"
+        echo "::debug::Creating job with name: $JOB_NAME" 
+        echo "::set-output name=jobName::$JOB_NAME"
+
+        if ${{ inputs.useGitMessageForName }}; then
+          DISPLAY_NAME="${{ github.event.head_commit.message }}"
+          DISPLAY_NAME=$(echo ${DISPLAY_NAME// /-} | tr -dc '[:alnum:]-')
+          echo "::debug::Configuring display name to: $DISPLAY_NAME" 
+        else
+          DISPLAY_NAME=$JOB_NAME
+        fi
+
+        az ml job create -n $JOB_NAME -f ${{ inputs.jobFile }} --resource-group ${{ inputs.resourceGroup }} --workspace-name ${{ inputs.workspaceName }} --set display_name="$DISPLAY_NAME"
+
+        if ! ${{ inputs.noWait }}; then
+          echo "::debug::Streaming logs"
+          
+          if [[ $(az ml job stream -n $JOB_NAME --resource-group ${{ inputs.resourceGroup }} --workspace-name ${{ inputs.workspaceName }} >> job.log) ]]; then
+            echo "::debug::Logs captured"
+          else
+            echo "::warning::Log capturing didn't work. Check experiment details."
+            echo "::debug::Waiting for the job "
+            JOB_STATUS="Queued"
+            while ! [[ $JOB_STATUS =~ ^(Failed|Completed|Canceled)$ ]];
+            do
+              sleep 60s
+              echo "::debug::Still queued/running" 
+              JOB_STATUS=$(az ml job show -n $JOB_NAME --resource-group ${{ inputs.resourceGroup }} --workspace-name ${{ inputs.workspaceName }} | jq -r '.status')
+            done
+
+            if [[ $JOB_STATUS != "Completed" ]]; then
+              echo "::error::Remote job status is failed or canceled."
+              exit 1
+            fi
+          fi
+        fi
+
+    - name: Uploading job logs
+      uses: actions/upload-artifact@v2
+      if: ${{ (failure() || success()) && inputs.noWait == 'false' }}
+      with:
+        name: ${{ inputs.name }}-log
+        path: job.log
