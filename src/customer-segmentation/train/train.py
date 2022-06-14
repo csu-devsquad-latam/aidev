@@ -2,7 +2,7 @@
 This python module creates and trains a customer segmentation model.
 """
 
-from azureml.core import Workspace, Dataset, Run
+from azureml.core import Dataset, Run
 from sklearn.preprocessing import PowerTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.cluster import MiniBatchKMeans
@@ -10,6 +10,7 @@ import mlflow
 from mlflow.models import infer_signature
 import mlflow.sklearn
 import numpy as np
+import pandas as pd
 
 # To run this file locally, run the following commands:
 # conda env create --name transformers-torch-19-dev -f \
@@ -18,19 +19,25 @@ import numpy as np
 # bring up your command palette (control-shift-p) and then type
 # "python: debug" select "Python: Debug Python File"
 
+LOCAL = False
+
 # define and configure transformer
 ptransformer = PowerTransformer(method="yeo-johnson")
 
-# load training dataset
-# Get workspace configuration
-run = Run.get_context()
-workspace = run.experiment.workspace
+if LOCAL:
+    # run local:
+    # load training dataset
+    test_data = pd.read_csv(".aml/data/online-retail-frm.csv")
 
-# Get a dataset by name
-ds = Dataset.get_by_name(workspace=workspace, name='online-retail-frm-train')
+else:
+    # run in cloud:
+    # Get workspace configuration
+    run = Run.get_context()
+    workspace = run.experiment.workspace
 
-# Load a TabularDataset into pandas DataFrame
-test_data = ds.to_pandas_dataframe()
+    ds = Dataset.get_by_name(workspace=workspace, name='online-retail-frm-train')
+    # Load a TabularDataset into pandas DataFrame
+    test_data = ds.to_pandas_dataframe()
 
 # Example input and output
 model_output = np.array([0, 2]) # example output, i.e. cluster label
