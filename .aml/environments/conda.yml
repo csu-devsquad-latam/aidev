@@ -1,0 +1,14 @@
+channels:
+- conda-forge
+dependencies:
+- python=3.8.13
+- pip==21.2.4
+- setuptools==61.2.0
+- wheel==0.37.1
+- pip:
+  - mlflow
+  - cloudpickle==2.1.0
+  - scikit-learn==1.1.1
+  - typing-extensions==4.2.0
+name: py38_customer_segmentation_dev
+
