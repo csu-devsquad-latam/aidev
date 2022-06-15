@@ -1,0 +1,75 @@
+name: model-CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ main ]
+    paths:
+    - .aml/jobs/**
+    - src/**
+
+jobs:
+  integration:
+    environment: dev
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Load environment from YAML
+        uses: doughepi/yaml-env-action@v1.0.0
+        with:
+            files: .github/variables.yaml
+
+      - id: job_preparation
+        name: Installing dependencies
+        uses: ./.github/actions/aml-cli-install
+        with:
+          componentSupport: false
+          minVersion: 2.0
+
+      - name: Preparing conda
+        uses: ./.github/actions/conda-setup
+
+      - name: Logging into Azure
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Building environment
+        uses: ./.github/actions/aml-env-build
+        with:
+          envFile: .aml/environments/${CONDAENVNAME}/environment.yml
+
+      - name: Create workspace config
+        uses: ./.github/actions/aml-workspace-get-config
+        with:
+          workspaceName: ${WORKSPACENAME}
+          resourceGroup: ${RESOURCEGROUPNAME}
+          outputFile: workspace.config.json
+      
+      - name: Running PyLint
+        uses: ./.github/actions/pylint-run
+        with:
+          source: src
+          useConda: true
+          condaEnvName: ${CONDAENVNAME}
+          disable: W1203,C0103,C0303,W0603,W0632,R0801,R0913, 
+      
+      - name: Ensuring environment
+        uses: ./.github/actions/aml-env-ensure
+        with:
+          envFile: .aml/environments/${CONDAENVNAME}/environment.yml
+          validateOnly: true
+          workspaceName: ${WORKSPACENAME}
+          resourceGroup: ${RESOURCEGROUPNAME}
+      
+      - name: Running training job
+        uses: ./.github/actions/aml-job-create
+        with:
+          name: ${MODELNAME}
+          jobFile: .aml/jobs/customer-segmentation/train.job.yml
+          workspaceName: ${WORKSPACENAME}
+          resourceGroup: ${RESOURCEGROUPNAME}
+          noWait: false
+      
