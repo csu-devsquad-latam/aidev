@@ -3,6 +3,6 @@ display_name: customer-segmentation
 experiment_name: customer-segmentation
 description: Trains a model that segments customers by feature
 code: ../../../src/customer-segmentation/train
-command: python train.py False
+command: python train.py
 environment: azureml:transformers-torch-19-dev:11
 compute: azureml:cpu-cluster

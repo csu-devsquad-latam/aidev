@@ -18,10 +18,15 @@ import pandas as pd
 # .aml/environments/transformers-torch-19-dev/conda_dependencies.yml
 # conda activate transformers-torch-19-dev
 # from the root directory of this project, run:
-# python src/customer-segmentation/train/train.py
+# python src/customer-segmentation/train/train.py True
 
-print(sys.argv[1])
-LOCAL = sys.argv[1]
+LOCAL = False
+
+try:
+    print(sys.argv[1])
+    LOCAL = sys.argv[1]
+except IndexError:
+    print('No argument provided. Default to running in cloud.')
 
 # define and configure transformer
 ptransformer = PowerTransformer(method="yeo-johnson")
