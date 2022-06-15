@@ -2,6 +2,7 @@
 This python module creates and trains a customer segmentation model.
 """
 
+import sys
 from azureml.core import Dataset, Run
 from sklearn.preprocessing import PowerTransformer
 from sklearn.pipeline import Pipeline
@@ -16,10 +17,11 @@ import pandas as pd
 # conda env create --name transformers-torch-19-dev -f \
 # .aml/environments/transformers-torch-19-dev/conda_dependencies.yml
 # conda activate transformers-torch-19-dev
-# bring up your command palette (control-shift-p) and then type
-# "python: debug" select "Python: Debug Python File"
+# from the root directory of this project, run:
+# python src/customer-segmentation/train/train.py
 
-LOCAL = False
+print(sys.argv[1])
+LOCAL = sys.argv[1]
 
 # define and configure transformer
 ptransformer = PowerTransformer(method="yeo-johnson")
