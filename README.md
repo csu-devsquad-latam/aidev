@@ -39,15 +39,13 @@ Open your terminal window and run this command:
 sudo chmod -R 777 /anaconda/pkgs
 ```
 
-Change directories to `.aml/environments/`, you will find the conda environment file named, `azureml_py38_dev.yml`. 
+Change directories to `.aml/environments/`, you will find the conda environment file named, `conda_dependencies.yml`. 
 
-In this directory, run this commands:
+In this directory, run this commands, giving a name, `py38_cluster_dev`, to this environment:
 
 ```
-conda env create -f azureml_py38_dev.yml
+conda env create ---name py38_cluser_dev --file conda_dependencies.yml
 ```
-
-This will take about 30 minutess to create a new environment described by `azureml_py38_dev.yml`. 
 
 This repo is tested with `conda==4.13.0`. If `conda` notifies to do an update, consider updating `conda`. Within that message, it will give command such as
 
@@ -61,12 +59,12 @@ Once the installation is complete, run the following command to check that the n
 conda env list
 ```
 
-If it exists, you would see the environment named `azureml_py38_dev` listed.
+If it exists, you will see the newly created environment named, `py38_cluster_dev`, listed.
 
 To activate the environment, 
 
 ```
-conda activate azureml_py38_dev
+conda activate py38_cluster_dev
 ```
 
 Note that this procedure can also be done on the terminal within the AML studio.
@@ -75,6 +73,6 @@ Note also that you may have to close and re-open your VSCode session in order fo
 
 ## Open and follow notebooks
 
-n VS code, open notebooks/00-explore-data-00.ipynb. In the upper right of VS Code, click on "Select Kernel" and choose the environment you just created in the previous step (azureml_py38_dev). If you encounter any issues creating the environment, you can just use the azureml_py38 environment.
+n VS code, open notebooks/00-explore-data-00.ipynb. In the upper right of VS Code, click on "Select Kernel" and choose the environment you just created in the previous step (`py38_cluster_dev`). If you encounter any issues creating the environment, you can just use the `py38_cluster_dev` environment.
 
 Follow the notebooks in order and follow instructions there.
