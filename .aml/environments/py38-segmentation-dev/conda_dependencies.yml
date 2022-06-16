@@ -1,0 +1,25 @@
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - pip=21.2.4
+  - pip:
+    - ipykernel
+    - pandas
+    - azureml-dataprep
+    - matplotlib
+    - seaborn
+    - pyarrow
+    - scikit-learn
+    - azure-ai-ml==0.1.0b3
+    - plotly
+    - nbformat
+    - mlflow
+    - azure-core==1.22.1
+    - azure-identity==1.7.0
+    - azure-mgmt-core==1.3.0
+    - azure-storage-blob==12.9.0
+    - azure-storage-file-share==12.7.0
+    - azureml-core==1.42.0.post1
+    - azureml-mlflow==1.42.0
+    - azureml-dataset-runtime==1.42.0
