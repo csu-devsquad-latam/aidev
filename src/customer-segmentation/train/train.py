@@ -20,7 +20,7 @@ import pandas as pd
 # from the root directory of this project, run:
 # python src/customer-segmentation/train/train.py True
 
-LOCAL = False
+LOCAL = True
 
 try:
     print(sys.argv[1])
@@ -63,26 +63,6 @@ km = MiniBatchKMeans(n_clusters=N_CLUSTERS,
 pipeline = Pipeline(steps=[('ptransformer', ptransformer), ('mini-batch-k-means', km)],
                     verbose=True)
 
-# create the model
-pipeline.fit(test_data)
+# Log a scikit-learn model as an MLflow artifact for the current run
+mlflow.sklearn.log_model(km, "model", signature=signature)
 
-# save the model
-test = mlflow.sklearn.log_model(km, "model", signature=signature)
-
-# # test code commented out below
-# # get the model
-# run_id = test.run_id
-# pipeline_model = mlflow.sklearn.load_model(f"runs:/{run_id}/model")
-
-# data = [[12, 109, 1647],  # cluster 2
-#         [85, 33, 553],    # cluster 3
-#         [84, 6, 146],     # cluster 1
-#         [12, 22, 348]]    # cluster 0
-
-# test_data = pd.DataFrame(data, columns=['Recency(Days)', 'Frequency', 'Monetary(£)'])
-
-# # run the model
-# x = pipeline_model.predict(test_data)
-
-# # log
-# print(x)
