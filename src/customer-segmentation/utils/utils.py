@@ -4,6 +4,8 @@ import numpy as np
 import pandas as pd
 
 def normalise_data(df):
+    """ Normalise data to map to normal distribution
+    """
     # Normalised data
     ptransformer = PowerTransformer(method="yeo-johnson")
 
@@ -13,7 +15,9 @@ def normalise_data(df):
     return df_normalised
 
 def calculate_wcss(min_cluster, max_cluster, batch_size, data):
-    """ Calculate Within Cluster Sum of Squared Errors (*WCSS*), i.e. km.inertia_ when iterate through min_cluster to max_cluster
+    """ Calculate Within Cluster Sum of Squared Errors (*WCSS*), 
+        i.e. km.inertia_ when iterate through min_cluster to 
+        max_cluster
     """
     wcss=[]
     for i in range(min_cluster, max_cluster):

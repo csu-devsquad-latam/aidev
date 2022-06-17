@@ -2,19 +2,20 @@
 This python module creates and trains a customer segmentation model.
 """
 
-from cProfile import run
-import sys
+#from cProfile import run
 from azureml.core import Dataset, Run
 from sklearn.preprocessing import PowerTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.cluster import MiniBatchKMeans
-import mlflow
+from utils.utils import calculate_wcss, get_optimal_k, normalise_data
 from mlflow.models import infer_signature
+
+import sys
+import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
 sys.path.append( 'src/customer-segmentation/utils/' )
-from utils import calculate_wcss, get_optimal_k, normalise_data
 
 # To run this file locally, run the following commands:
 # conda env create --name transformers-torch-19-dev -f \
@@ -26,10 +27,12 @@ from utils import calculate_wcss, get_optimal_k, normalise_data
 LOCAL = True
 
 def get_training_data():
+    """ Get training data
+    """
     if LOCAL:
         # run local:
         # load training dataset
-        train_data = pd.read_csv(".aml/data/online-retail-frm-train.csv")
+        data = pd.read_csv(".aml/data/online-retail-frm-train.csv")
 
     else:
         # run in cloud:
@@ -37,13 +40,16 @@ def get_training_data():
         run = Run.get_context()
         workspace = run.experiment.workspace
 
-        ds = Dataset.get_by_name(workspace=workspace, name='online-retail-frm-train')
+        ds = Dataset.get_by_name(workspace=workspace,
+                                 name='online-retail-frm-train')
         # Load a TabularDataset into pandas DataFrame
-        train_data = ds.to_pandas_dataframe()
-        
-    return train_data
+        data = ds.to_pandas_dataframe()
+
+    return data
 
 def configure_pipeline(n_clusters, batch_size):
+    """ Configure training pipeline
+    """
     # Define and configure transformer
     ptransformer = PowerTransformer(method="yeo-johnson")
 
@@ -53,10 +59,12 @@ def configure_pipeline(n_clusters, batch_size):
                         batch_size=batch_size,
                         max_iter=100)
 
-    pipeline = Pipeline(steps=[('ptransformer', ptransformer), ('mini-batch-k-means', km)],
+    # Chain into pipeline
+    pipeline = Pipeline(steps=[('ptransformer', ptransformer),
+                               ('mini-batch-k-means', km)],
                         verbose=True)
-    
-    return pipeline 
+
+    return pipeline
 
 if __name__ == "__main__":
     try:
@@ -75,26 +83,31 @@ if __name__ == "__main__":
     min_cluster = 1
     max_cluster = 11
     batch_size = int(train_data_normalised.shape[0]*0.1)
-    wcss = calculate_wcss(min_cluster, max_cluster, batch_size, train_data_normalised) # note that df_transformed is used here
+    wcss = calculate_wcss(min_cluster,
+                          max_cluster,
+                          batch_size,
+                          train_data_normalised)
     n_clusters = get_optimal_k(wcss)
 
     # Example input and output
-    model_output = np.array([0, 2]) # example output, i.e. cluster label
+    model_output = np.array([0, 2])
     model_input = train_data.iloc[0:2]
 
     # Infer signature, i.e. input and output
-    signature = infer_signature(model_input=model_input, model_output=model_output)
+    signature = infer_signature(model_input=model_input,
+                                model_output=model_output)
 
     # Configure pipeline
 
-    pipeline = configure_pipeline(n_clusters=n_clusters, batch_size=len(train_data)*0.1)
+    pipeline = configure_pipeline(n_clusters=n_clusters,
+                                  batch_size=len(train_data)*0.1)
 
-    
-    # Log a scikit-learn model as an MLflow artifact for the current run
-    mlflow.sklearn.log_model(km, "model", signature=signature)
+    # Log a scikit-learn model as an MLflow artifact for the
+    # current run
+    mlflow.sklearn.log_model(pipeline, "model", signature=signature)
 
     # Metrics to log
-    metrics = {"wcss": wcss[n_clusters], 
+    metrics = {"wcss": wcss[n_clusters],
                "n_clusters": n_clusters}
 
     # log custom metrics
