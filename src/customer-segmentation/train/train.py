@@ -21,7 +21,7 @@ sys.path.append('src/customer-segmentation/utils/')
 # from the root directory of this project, run:
 # python src/customer-segmentation/train/train.py True
 
-LOCAL = True
+LOCAL = False
 
 def get_training_data():
     """Get training data."""
