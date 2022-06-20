@@ -12,12 +12,13 @@ import mlflow.sklearn
 import numpy as np
 import pandas as pd
 
-sys.path.append('./')
-from utils.utils import calculate_wcss, get_optimal_k, normalise_data
+#sys.path.append('./')
+#from utils.utils import calculate_wcss, get_optimal_k, normalise_data
 # aidev-mlops/src/customer-segmentation$ python train/train.py
+# fail pylint
 
 # aidev-mlops/src$ python -m customer-segmentation.train.train
-#from ..utils.utils import normalise_data
+from ..utils.utils import normalise_data
 
 # To run this file locally, run the following commands:
 # conda env create --name transformers-torch-19-dev -f \
@@ -26,8 +27,8 @@ from utils.utils import calculate_wcss, get_optimal_k, normalise_data
 # from the root directory of this project, run:
 # python src/customer-segmentation/train/train.py True
 
-LOCAL = False
-#LOCAL = True
+#LOCAL = False
+LOCAL = True
 DEBUG = True
 
 def get_training_data():
