@@ -11,7 +11,7 @@ import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
-sys.path.append('src/customer-segmentation/')
+sys.path.append('customer-segmentation/')
 from utils.util import calculate_wcss, get_optimal_k, normalise_data
 #from utils import calculate_wcss, get_optimal_k, normalise_data
 
@@ -40,9 +40,9 @@ def get_training_data():
     if LOCAL:
         # run local:
         # load training dataset
-        data = pd.read_csv(".aml/data/online-retail-frm-train.csv")
+        #data = pd.read_csv(".aml/data/online-retail-frm-train.csv")
         #data = pd.read_csv("../../.aml/data/online-retail-frm-train.csv")
-        #data = pd.read_csv("../.aml/data/online-retail-frm-train.csv")
+        data = pd.read_csv("../.aml/data/online-retail-frm-train.csv")
         #data = pd.read_csv("../../../.aml/data/online-retail-frm-train.csv")
 
     else:
