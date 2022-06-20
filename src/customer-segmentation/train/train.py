@@ -1,21 +1,18 @@
-"""
-This python module creates and trains a customer segmentation model.
-"""
+"""This python module creates and trains a customer segmentation model."""
 
 #from cProfile import run
+import sys
 from azureml.core import Dataset, Run
 from sklearn.preprocessing import PowerTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.cluster import MiniBatchKMeans
 from utils.utils import calculate_wcss, get_optimal_k, normalise_data
 from mlflow.models import infer_signature
-
-import sys
 import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
-sys.path.append( 'src/customer-segmentation/utils/' )
+sys.path.append('src/customer-segmentation/utils/')
 
 # To run this file locally, run the following commands:
 # conda env create --name transformers-torch-19-dev -f \
@@ -27,8 +24,7 @@ sys.path.append( 'src/customer-segmentation/utils/' )
 LOCAL = True
 
 def get_training_data():
-    """ Get training data
-    """
+    """Get training data."""
     if LOCAL:
         # run local:
         # load training dataset
@@ -40,28 +36,27 @@ def get_training_data():
         run = Run.get_context()
         workspace = run.experiment.workspace
 
-        ds = Dataset.get_by_name(workspace=workspace,
+        dataset = Dataset.get_by_name(workspace=workspace,
                                  name='online-retail-frm-train')
         # Load a TabularDataset into pandas DataFrame
-        data = ds.to_pandas_dataframe()
+        data = dataset.to_pandas_dataframe()
 
     return data
 
 def configure_pipeline(n_clusters, batch_size):
-    """ Configure training pipeline
-    """
+    """Configure training pipeline."""
     # Define and configure transformer
     ptransformer = PowerTransformer(method="yeo-johnson")
 
     # Define and configure kmeans model with two step pipeline
-    km = MiniBatchKMeans(n_clusters=n_clusters,
+    kmeans = MiniBatchKMeans(n_clusters=n_clusters,
                         random_state=9,
                         batch_size=batch_size,
                         max_iter=100)
 
     # Chain into pipeline
     pipeline = Pipeline(steps=[('ptransformer', ptransformer),
-                               ('mini-batch-k-means', km)],
+                               ('mini-batch-k-means', kmeans)],
                         verbose=True)
 
     return pipeline
@@ -80,14 +75,14 @@ if __name__ == "__main__":
     train_data_normalised = normalise_data(train_data)
 
     # Find optimal k
-    min_cluster = 1
-    max_cluster = 11
-    batch_size = int(train_data_normalised.shape[0]*0.1)
-    wcss = calculate_wcss(min_cluster,
-                          max_cluster,
-                          batch_size,
+    MIN_CLUSTER = 1
+    MAX_CLUSTER = 11
+    training_batch_size = int(train_data_normalised.shape[0]*0.1)
+    wcss = calculate_wcss(MIN_CLUSTER,
+                          MAX_CLUSTER,
+                          training_batch_size,
                           train_data_normalised)
-    n_clusters = get_optimal_k(wcss)
+    opitimal_n_clusters = get_optimal_k(wcss)
 
     # Example input and output
     model_output = np.array([0, 2])
@@ -98,17 +93,16 @@ if __name__ == "__main__":
                                 model_output=model_output)
 
     # Configure pipeline
-
-    pipeline = configure_pipeline(n_clusters=n_clusters,
-                                  batch_size=len(train_data)*0.1)
+    train_pipeline = configure_pipeline(n_clusters=opitimal_n_clusters,
+                                        batch_size=len(train_data)*0.1)
 
     # Log a scikit-learn model as an MLflow artifact for the
     # current run
-    mlflow.sklearn.log_model(pipeline, "model", signature=signature)
+    mlflow.sklearn.log_model(train_pipeline, "model", signature=signature)
 
     # Metrics to log
-    metrics = {"wcss": wcss[n_clusters],
-               "n_clusters": n_clusters}
+    metrics = {"wcss": wcss[opitimal_n_clusters],
+               "n_clusters": opitimal_n_clusters}
 
     # log custom metrics
     mlflow.log_metrics(metrics=metrics)
