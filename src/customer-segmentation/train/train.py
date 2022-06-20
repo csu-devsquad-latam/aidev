@@ -19,6 +19,7 @@ import pandas as pd
 
 # aidev-mlops/src$ python -m customer-segmentation.train.train
 from ..utils.utils import normalise_data, calculate_wcss, get_optimal_k
+# fail pylint
 
 # To run this file locally, run the following commands:
 # conda env create --name transformers-torch-19-dev -f \
@@ -27,8 +28,8 @@ from ..utils.utils import normalise_data, calculate_wcss, get_optimal_k
 # from the root directory of this project, run:
 # python src/customer-segmentation/train/train.py True
 
-#LOCAL = False
-LOCAL = True
+LOCAL = False
+#LOCAL = True
 DEBUG = True
 
 def get_training_data():
