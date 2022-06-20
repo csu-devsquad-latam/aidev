@@ -11,6 +11,9 @@ import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
+sys.path.append('src/customer-segmentation/')
+#from utils import calculate_wcss, get_optimal_k, normalise_data
+from utils.util import calculate_wcss, get_optimal_k, normalise_data
 
 #sys.path.append('./')
 #from utils.utils import calculate_wcss, get_optimal_k, normalise_data
@@ -18,7 +21,7 @@ import pandas as pd
 # fail pylint
 
 # aidev-mlops/src$ python -m customer-segmentation.train.train
-from ..utils.utils import normalise_data, calculate_wcss, get_optimal_k
+#from ..utils.utils import normalise_data, calculate_wcss, get_optimal_k
 # fail pylint
 
 # To run this file locally, run the following commands:
@@ -29,7 +32,6 @@ from ..utils.utils import normalise_data, calculate_wcss, get_optimal_k
 # python src/customer-segmentation/train/train.py True
 
 LOCAL = False
-#LOCAL = True
 DEBUG = True
 
 def get_training_data():
@@ -37,9 +39,10 @@ def get_training_data():
     if LOCAL:
         # run local:
         # load training dataset
-        #data = pd.read_csv(".aml/data/online-retail-frm-train.csv")
-        data = pd.read_csv("../../.aml/data/online-retail-frm-train.csv")
+        data = pd.read_csv(".aml/data/online-retail-frm-train.csv")
+        #data = pd.read_csv("../../.aml/data/online-retail-frm-train.csv")
         #data = pd.read_csv("../.aml/data/online-retail-frm-train.csv")
+        #data = pd.read_csv("../../../.aml/data/online-retail-frm-train.csv")
 
     else:
         # run in cloud:
