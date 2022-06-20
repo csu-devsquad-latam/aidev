@@ -1,6 +1,5 @@
 """This python module creates and trains a customer segmentation model."""
 
-#from cProfile import run
 import sys
 from azureml.core import Dataset, Run
 from sklearn.preprocessing import PowerTransformer
@@ -13,27 +12,16 @@ import numpy as np
 import pandas as pd
 sys.path.append('customer-segmentation/')
 from utils.util import calculate_wcss, get_optimal_k, normalise_data
-#from utils import calculate_wcss, get_optimal_k, normalise_data
-
-
-#sys.path.append('./')
-#from utils.utils import calculate_wcss, get_optimal_k, normalise_data
-# aidev-mlops/src/customer-segmentation$ python train/train.py
-# fail pylint
-
-# aidev-mlops/src$ python -m customer-segmentation.train.train
-#from ..utils.utils import normalise_data, calculate_wcss, get_optimal_k
-# fail pylint
 
 # To run this file locally, run the following commands:
 # conda env create --name transformers-torch-19-dev -f \
 # .aml/environments/transformers-torch-19-dev/conda_dependencies.yml
 # conda activate transformers-torch-19-dev
-# from the root directory of this project, run:
+# from the aidev-mlops/src, run:
 # python src/customer-segmentation/train/train.py True
 
 LOCAL = False
-DEBUG = True
+DEBUG = False
 
 def get_training_data():
     """Get training data."""
@@ -65,9 +53,9 @@ def configure_pipeline(n_clusters, batch_size):
 
     # Define and configure kmeans model with two step pipeline
     kmeans = MiniBatchKMeans(n_clusters=n_clusters,
-                        random_state=9,
-                        batch_size=batch_size,
-                        max_iter=100)
+                             random_state=9,
+                             batch_size=batch_size,
+                             max_iter=100)
 
     # Chain into pipeline
     pipeline = Pipeline(steps=[('ptransformer', ptransformer),
