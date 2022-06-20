@@ -6,13 +6,18 @@ from azureml.core import Dataset, Run
 from sklearn.preprocessing import PowerTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.cluster import MiniBatchKMeans
-from utils.utils import calculate_wcss, get_optimal_k, normalise_data
 from mlflow.models import infer_signature
 import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
-sys.path.append('src/customer-segmentation/utils/')
+
+sys.path.append('./')
+from utils.utils import calculate_wcss, get_optimal_k, normalise_data
+# aidev-mlops/src/customer-segmentation$ python train/train.py
+
+# aidev-mlops/src$ python -m customer-segmentation.train.train
+#from ..utils.utils import normalise_data
 
 # To run this file locally, run the following commands:
 # conda env create --name transformers-torch-19-dev -f \
@@ -22,6 +27,7 @@ sys.path.append('src/customer-segmentation/utils/')
 # python src/customer-segmentation/train/train.py True
 
 LOCAL = False
+#LOCAL = True
 DEBUG = True
 
 def get_training_data():
@@ -29,7 +35,9 @@ def get_training_data():
     if LOCAL:
         # run local:
         # load training dataset
-        data = pd.read_csv(".aml/data/online-retail-frm-train.csv")
+        #data = pd.read_csv(".aml/data/online-retail-frm-train.csv")
+        data = pd.read_csv("../../.aml/data/online-retail-frm-train.csv")
+        #data = pd.read_csv("../.aml/data/online-retail-frm-train.csv")
 
     else:
         # run in cloud:
