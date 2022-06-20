@@ -18,20 +18,17 @@ from utils.util import calculate_wcss, get_optimal_k, normalise_data
 # .aml/environments/transformers-torch-19-dev/conda_dependencies.yml
 # conda activate transformers-torch-19-dev
 # from the aidev-mlops/src, run:
-# python src/customer-segmentation/train/train.py True
+# python customer-segmentation/train/train.py True
 
 LOCAL = False
-DEBUG = False
+LOG = False
 
 def get_training_data():
     """Get training data."""
     if LOCAL:
         # run local:
         # load training dataset
-        #data = pd.read_csv(".aml/data/online-retail-frm-train.csv")
-        #data = pd.read_csv("../../.aml/data/online-retail-frm-train.csv")
         data = pd.read_csv("../.aml/data/online-retail-frm-train.csv")
-        #data = pd.read_csv("../../../.aml/data/online-retail-frm-train.csv")
 
     else:
         # run in cloud:
@@ -74,14 +71,14 @@ if __name__ == "__main__":
     # Get training data
     train_data = get_training_data()
 
-    if DEBUG:
-        print(f"DEBUG : training data shape is {train_data.shape}.")
+    if LOG:
+        print(f"LOG : training data shape is {train_data.shape}.")
 
     # Normalise data
     train_data_normalised = normalise_data(train_data)
 
-    if DEBUG:
-        print(f"DEBUG : normalised training data looks like {train_data_normalised.head()}")
+    if LOG:
+        print(f"LOG : normalised training data looks like {train_data_normalised.head()}")
 
     # Find optimal k
     MIN_CLUSTER = 1
@@ -93,8 +90,8 @@ if __name__ == "__main__":
                           train_data_normalised)
     opitimal_n_clusters = get_optimal_k(wcss)
 
-    if DEBUG:
-        print(f"DEBUG: optimal_n_clusters is {opitimal_n_clusters}.")
+    if LOG:
+        print(f"LOG: optimal_n_clusters is {opitimal_n_clusters}.")
 
     # Example input and output
     model_output = np.array([0, 2])
@@ -116,8 +113,8 @@ if __name__ == "__main__":
     metrics = {"wcss": wcss[opitimal_n_clusters],
                "n_clusters": opitimal_n_clusters}
 
-    if DEBUG:
-        print(f"DEBUG: metrics is {metrics}.")
+    if LOG:
+        print(f"LOG: metrics is {metrics}.")
 
     # log custom metrics
     mlflow.log_metrics(metrics=metrics)
