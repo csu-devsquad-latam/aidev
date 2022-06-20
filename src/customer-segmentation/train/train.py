@@ -12,8 +12,9 @@ import mlflow.sklearn
 import numpy as np
 import pandas as pd
 sys.path.append('src/customer-segmentation/')
-#from utils import calculate_wcss, get_optimal_k, normalise_data
 from utils.util import calculate_wcss, get_optimal_k, normalise_data
+#from utils import calculate_wcss, get_optimal_k, normalise_data
+
 
 #sys.path.append('./')
 #from utils.utils import calculate_wcss, get_optimal_k, normalise_data
