@@ -18,7 +18,7 @@ import pandas as pd
 # fail pylint
 
 # aidev-mlops/src$ python -m customer-segmentation.train.train
-from ..utils.utils import normalise_data
+from ..utils.utils import normalise_data, calculate_wcss, get_optimal_k
 
 # To run this file locally, run the following commands:
 # conda env create --name transformers-torch-19-dev -f \
