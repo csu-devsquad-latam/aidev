@@ -22,6 +22,7 @@ sys.path.append('src/customer-segmentation/utils/')
 # python src/customer-segmentation/train/train.py True
 
 LOCAL = False
+DEBUG = True
 
 def get_training_data():
     """Get training data."""
@@ -71,8 +72,14 @@ if __name__ == "__main__":
     # Get training data
     train_data = get_training_data()
 
+    if DEBUG:
+        print(f"DEBUG : training data shape is {train_data.shape}.")
+
     # Normalise data
     train_data_normalised = normalise_data(train_data)
+
+    if DEBUG:
+        print(f"DEBUG : normalised training data looks like {train_data_normalised.head()}")
 
     # Find optimal k
     MIN_CLUSTER = 1
@@ -83,6 +90,9 @@ if __name__ == "__main__":
                           training_batch_size,
                           train_data_normalised)
     opitimal_n_clusters = get_optimal_k(wcss)
+
+    if DEBUG:
+        print(f"DEBUG: optimal_n_clusters is {opitimal_n_clusters}.")
 
     # Example input and output
     model_output = np.array([0, 2])
@@ -103,6 +113,9 @@ if __name__ == "__main__":
     # Metrics to log
     metrics = {"wcss": wcss[opitimal_n_clusters],
                "n_clusters": opitimal_n_clusters}
+
+    if DEBUG:
+        print(f"DEBUG: metrics is {metrics}.")
 
     # log custom metrics
     mlflow.log_metrics(metrics=metrics)
