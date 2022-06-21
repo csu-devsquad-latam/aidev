@@ -1,0 +1,5 @@
+$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineEndpoint.schema.json
+name: customer-segmentation
+auth_mode: key
+traffic:
+  main: 100

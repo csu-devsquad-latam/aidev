@@ -46,7 +46,7 @@ jobs:
         uses: ./.github/actions/aml-job-create
         with:
           name: ${{ env.MODELNAME }}
-          jobFile: .aml/jobs/hatedetection/train.job.yml
+          jobFile: .aml/jobs/customer-segmentation/train.job.yml
           workspaceName: ${WORKSPACENAME}
           resourceGroup: ${RESOURCEGROUPNAME}
           noWait: false
@@ -54,7 +54,7 @@ jobs:
     outputs:
       jobName: ${{ steps.jobRun.outputs.jobName }}
 
-  registry:
+  register-model:
     environment: dev
     runs-on: ubuntu-latest
     needs: build
@@ -87,7 +87,7 @@ jobs:
           fromJob: true
           jobName: ${{ needs.build.outputs.jobName }}
           description: ${DESCRIPTION}
-          modelPath: hate-pt-speech
+          modelPath: customer-segmentation
           modelType: mlflow_model
           workspaceName: ${WORKSPACENAME}
           resourceGroup: ${RESOURCEGROUPNAME}
@@ -95,7 +95,7 @@ jobs:
   deploy:
     environment: dev
     runs-on: ubuntu-latest
-    needs: registry
+    needs: register-model
 
     steps:
       - uses: actions/checkout@v2
@@ -113,7 +113,29 @@ jobs:
           minVersion: 2.0
           pythonTools: true
 
-      - name: Logging in into Azure
+      - name: Logging into Azure
         uses: Azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Moving model's stage
+        uses: ./.github/actions/aml-model-set
+        with:
+          modelName: ${MODELNAME}
+          modelVersion: latest
+          isMlflowStage: true
+          replaceExistingWith: archived
+          workspaceName: ${WORKSPACENAME}
+          resourceGroup: ${RESOURCEGROUPNAME}
+      
+      - name: Deploying models
+        id: deployment
+        uses: ./.github/actions/aml-endpoint-deploy
+        with:
+          endpointFile: .aml/endpoints/*/endpoint.yml
+          deploymentFile: deployments/*.yml
+          modelVersion: latest
+          workspaceName: ${WORKSPACENAME}
+          resourceGroup: ${RESOURCEGROUPNAME}
+          secretsToKeyVault: true
+          keyVaultName: ${KEYVAULTNAME}

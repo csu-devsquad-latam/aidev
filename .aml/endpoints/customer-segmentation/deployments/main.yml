@@ -1,0 +1,6 @@
+$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
+name: main
+endpoint_name: customer-segmentation
+model: azureml:customer-profile-using-pipeline:1
+instance_type: Standard_DS3_v2
+instance_count: 1
