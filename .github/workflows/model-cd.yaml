@@ -76,7 +76,7 @@ jobs:
           minVersion: 2.0
           pythonTools: true
 
-      - name: Logging in into Azure
+      - name: Logging into Azure
         uses: Azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -124,6 +124,8 @@ jobs:
         with:
           modelName: ${MODELNAME}
           modelVersion: latest
+          property: purpose
+          value: tutorial
           isMlflowStage: true
           replaceExistingWith: archived
           workspaceName: ${WORKSPACENAME}
