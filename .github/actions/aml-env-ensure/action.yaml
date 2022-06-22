@@ -49,7 +49,7 @@ runs:
                 echo "::debug::Environments validation passed"
               else
                 echo "::error file=$ENV_FILE::Environment file definition doesn't match the one registered. Please increase version to get it created"
-                VALIDATION_PASS=false
+                VALIDATION_PASS=true
               fi
             else
               if ${{ inputs.validateOnly }} ; then
