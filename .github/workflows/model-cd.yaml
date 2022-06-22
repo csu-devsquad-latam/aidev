@@ -1,14 +1,13 @@
-name: model-cd
+name: model-CD
 
 on:
   workflow_dispatch:
   push:
-    # branches: [ main ]
+    branches: [ main ]
     paths:
     - .aml/jobs/**
     - .aml/endpoints/**
     - src/**
-    - .github/workflows/**
 
 jobs:
   build:
