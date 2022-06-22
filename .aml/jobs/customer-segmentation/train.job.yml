@@ -2,7 +2,7 @@ $schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
 display_name: customer-segmentation
 experiment_name: customer-segmentation
 description: Trains a model that segments customers by feature
-code: ../../../src/customer-segmentation/train
-command: python train.py
+code: ../../../src/
+command: python ./customer-segmentation/train/train.py
 environment: azureml:transformers-torch-19-dev:11
 compute: azureml:cpu-cluster
