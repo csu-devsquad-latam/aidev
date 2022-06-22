@@ -1,18 +1,9 @@
 name: model-CI
 
-# on:
-#   workflow_dispatch:
-#   pull_request:
-#     branches: [ main ]
-#     paths:
-#     - .aml/jobs/**
-#     - src/**
-
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - chyam/27-clean-up-torch-environments
+  pull_request:
+    branches: [ main ]
     paths:
     - .aml/jobs/**
     - src/**
