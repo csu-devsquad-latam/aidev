@@ -10,7 +10,8 @@ name: environment-CI
 on:
   #workflow_dispatch:
   push:
-    branches: [ chyam/27-clean-up-torch-environments ]
+    branches:
+      - chyam/27-clean-up-torch-environments
     paths:
       - .aml/environments/**
 
