@@ -33,10 +33,10 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # - name: Building environment
-      #   uses: ./.github/actions/aml-env-build
-      #   with:
-      #     envFile: .aml/environments/*/environment.yml
+      - name: Building environment
+        uses: ./.github/actions/aml-env-build
+        with:
+          envFile: .aml/environments/*/environment.yml
       
       # this is called ensure environment but if validateOnly = false, it will deploy
       - name: Ensuring environment
@@ -46,8 +46,3 @@ jobs:
           validateOnly: false
           workspaceName: ${WORKSPACENAME}
           resourceGroup: ${RESOURCEGROUPNAME}
-      
-      - name: Building environment
-        uses: ./.github/actions/aml-env-build
-        with:
-          envFile: .aml/environments/*/environment.yml
