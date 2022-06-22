@@ -5,5 +5,8 @@ description: Trains a model that segments customers by feature
 code: ../../../src/
 command: python ./customer-segmentation/train/train.py
 #environment: azureml:transformers-torch-19-dev:11 # registered
-environment: azureml:py38-segmentation-dev:@latest # to be registered
+#environment: azureml:py38-segmentation-dev:@latest # need to registered prior, should set to the one that has just been built
+# @latest didn't work.
+environment: azureml:py38-segmentation-dev:1 # need to registered prior, should set to the one that has just been built 
+# or take from environment just built
 compute: azureml:cpu-cluster
