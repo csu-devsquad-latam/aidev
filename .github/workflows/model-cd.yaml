@@ -87,7 +87,7 @@ jobs:
           fromJob: true
           jobName: ${{ needs.build.outputs.jobName }}
           description: ${DESCRIPTION}
-          modelPath: customer-segmentation
+          modelPath: model
           modelType: mlflow_model
           workspaceName: ${WORKSPACENAME}
           resourceGroup: ${RESOURCEGROUPNAME}
