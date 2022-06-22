@@ -7,7 +7,7 @@ on:
     paths:
     - .aml/jobs/**
     - src/**
-    - workflows/**
+    - .github/workflows/**
 
 jobs:
   build:
