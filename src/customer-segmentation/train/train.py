@@ -105,16 +105,22 @@ if __name__ == "__main__":
     train_pipeline = configure_pipeline(n_clusters=opitimal_n_clusters,
                                         batch_size=len(train_data)*0.1)
 
-    # Log a scikit-learn model as an MLflow artifact for the
-    # current run
-    mlflow.sklearn.log_model(train_pipeline, "model", signature=signature)
+    mlflow.sklearn.autolog()
 
     # Metrics to log
     metrics = {"wcss": wcss[opitimal_n_clusters],
                "n_clusters": opitimal_n_clusters}
 
+    with mlflow.start_run() as run:
+        train_pipeline.fit(train_data_normalised)
+        mlflow.log_metrics(metrics=metrics)
+
+    # Log a scikit-learn model as an MLflow artifact for the
+    # current run
+    # mlflow.sklearn.log_model(train_pipeline, "model", signature=signature)
+
     if LOG:
         print(f"LOG: metrics is {metrics}.")
 
-    # log custom metrics
-    mlflow.log_metrics(metrics=metrics)
+    mlflow.end_run()
+    
