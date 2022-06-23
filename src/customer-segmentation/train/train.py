@@ -11,6 +11,7 @@ import mlflow.sklearn
 import numpy as np
 import pandas as pd
 sys.path.append('customer-segmentation/')
+# sys.path.append('src/customer-segmentation/') # for local debugging
 from utils.util import calculate_wcss, get_optimal_k, normalise_data
 
 # To run this file locally, run the following commands:
@@ -29,6 +30,7 @@ def get_training_data():
         # run local:
         # load training dataset
         data = pd.read_csv("../.aml/data/online-retail-frm-train.csv")
+        # data = pd.read_csv(".aml/data/online-retail-frm-train.csv") # for local debugging
 
     else:
         # run in cloud:
@@ -42,24 +44,6 @@ def get_training_data():
         data = dataset.to_pandas_dataframe()
 
     return data
-
-# def configure_pipeline(n_clusters, batch_size):
-#     """Configure training pipeline."""
-#     # Define and configure transformer
-#     ptransformer = PowerTransformer(method="yeo-johnson")
-
-#     # Define and configure kmeans model with two step pipeline
-#     kmeans = MiniBatchKMeans(n_clusters=n_clusters,
-#                              random_state=9,
-#                              batch_size=batch_size,
-#                              max_iter=100)
-
-#     # Chain into pipeline
-#     pipeline = Pipeline(steps=[('ptransformer', ptransformer),
-#                                ('mini-batch-k-means', kmeans)],
-#                         verbose=True)
-
-#     return pipeline
 
 if __name__ == "__main__":
     try:
@@ -102,9 +86,11 @@ if __name__ == "__main__":
                                 model_output=model_output)
 
     # Configure pipeline
+    # Configure transformer
     ptransformer = PowerTransformer(method="yeo-johnson")
+
     # Configure kmeans
-    batch_size = int(train_data.shape[0]*0.1)
+    batch_size = int(train_data_normalised.shape[0]*0.1)
 
     km = MiniBatchKMeans(n_clusters=optimal_n_clusters,
                         random_state=9,
@@ -114,7 +100,8 @@ if __name__ == "__main__":
     pipeline = Pipeline(steps=[('ptransformer', ptransformer), ('mini_batch_k_means', km)],
                         verbose=True)
 
-    pipeline.fit(train_data)
+    pipeline.fit(train_data_normalised)
+
     # Log a scikit-learn model as an MLflow artifact for the
     # current run
     mlflow.sklearn.log_model(pipeline, "model", signature=signature)
