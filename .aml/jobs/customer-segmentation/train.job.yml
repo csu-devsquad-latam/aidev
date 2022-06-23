@@ -7,6 +7,6 @@ command: python ./customer-segmentation/train/train.py
 #environment: azureml:transformers-torch-19-dev:11 # registered
 #environment: azureml:py38-segmentation-dev:@latest # need to registered prior, should set to the one that has just been built
 # @latest didn't work.
-environment: azureml:py38-segmentation-dev:4 # need to registered prior, should set to the one that has just been built 
+environment: azureml:py38-segmentation-dev:5 # need to registered prior, should set to the one that has just been built 
 # or take from environment just built
 compute: azureml:cpu-cluster
