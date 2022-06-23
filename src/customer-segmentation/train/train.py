@@ -22,6 +22,7 @@ from utils.util import calculate_wcss, get_optimal_k, normalise_data
 
 LOCAL = False
 LOG = False
+REGISTER = True
 
 def get_training_data():
     """Get training data."""
@@ -61,7 +62,18 @@ def configure_pipeline(n_clusters, batch_size):
 
     return pipeline
 
+def register_trained_model(run_id, model_path, model_name):
+    """Register a trained model."""
+    model_uri = f'runs:/{run_id}/{model_path}'
+    mlflow.register_model(model_uri,model_name)
+
+    return None
+
 if __name__ == "__main__":
+    MODEL_PATH = 'model'
+    MODEL_NAME = 'customer-segmentation-model'
+
+    # TODO: 3 input arguments
     try:
         print(sys.argv[1])
         LOCAL = sys.argv[1]
@@ -107,7 +119,9 @@ if __name__ == "__main__":
 
     # Log a scikit-learn model as an MLflow artifact for the
     # current run
-    mlflow.sklearn.log_model(train_pipeline, "model", signature=signature)
+    run = mlflow.sklearn.log_model(sk_model=train_pipeline,
+                                   artifact_path=MODEL_PATH,
+                                   signature=signature)
 
     # Metrics to log
     metrics = {"wcss": wcss[opitimal_n_clusters],
@@ -118,3 +132,9 @@ if __name__ == "__main__":
 
     # log custom metrics
     mlflow.log_metrics(metrics=metrics)
+
+    # Register the train model
+    if REGISTER:
+        register_trained_model(run_id=run.run_id,
+                               model_path=MODEL_PATH,
+                               model_name=MODEL_NAME)
