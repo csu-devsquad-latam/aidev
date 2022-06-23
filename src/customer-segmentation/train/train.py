@@ -111,8 +111,8 @@ if __name__ == "__main__":
     metrics = {"wcss": wcss[opitimal_n_clusters],
                "n_clusters": opitimal_n_clusters}
 
-    with mlflow.start_run():
-        train_pipeline.fit(train_data_normalised)
+    with mlflow.start_run() as job:
+        train_pipeline.fit(train_data)
         mlflow.log_metrics(metrics=metrics)
 
     # Log a scikit-learn model as an MLflow artifact for the
