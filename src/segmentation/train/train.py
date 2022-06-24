@@ -10,8 +10,8 @@ import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
-#sys.path.append('customer-segmentation/')
-sys.path.append('src/segmentation/') # for local debugging
+sys.path.append('segmentation/')
+#sys.path.append('src/segmentation/') # for local debugging
 from utils.util import calculate_wcss, get_optimal_k, normalise_data
 
 # To run this file locally, run the following commands:
@@ -22,7 +22,7 @@ from utils.util import calculate_wcss, get_optimal_k, normalise_data
 # python customer-segmentation/train/train.py True
 
 LOCAL = False
-LOCAL = True
+#LOCAL = True
 LOG = False
 
 def get_training_data():
@@ -41,6 +41,7 @@ def get_training_data():
 
         dataset = Dataset.get_by_name(workspace=workspace,
                                  name='online-retail-frm-train')
+        
         # Load a TabularDataset into pandas DataFrame
         data = dataset.to_pandas_dataframe()
 
