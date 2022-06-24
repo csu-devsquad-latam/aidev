@@ -10,8 +10,8 @@ import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
-sys.path.append('customer-segmentation/')
-# sys.path.append('src/customer-segmentation/') # for local debugging
+#sys.path.append('customer-segmentation/')
+sys.path.append('src/segmentation/') # for local debugging
 from utils.util import calculate_wcss, get_optimal_k, normalise_data
 
 # To run this file locally, run the following commands:
@@ -22,6 +22,7 @@ from utils.util import calculate_wcss, get_optimal_k, normalise_data
 # python customer-segmentation/train/train.py True
 
 LOCAL = False
+LOCAL = True
 LOG = False
 
 def get_training_data():
@@ -29,8 +30,8 @@ def get_training_data():
     if LOCAL:
         # run local:
         # load training dataset
-        data = pd.read_csv("../.aml/data/online-retail-frm-train.csv")
-        # data = pd.read_csv(".aml/data/online-retail-frm-train.csv") # for local debugging
+        #data = pd.read_csv("../.aml/data/online-retail-frm-train.csv")
+        data = pd.read_csv(".aml/data/online-retail-frm-train.csv") # for local debugging
 
     else:
         # run in cloud:
