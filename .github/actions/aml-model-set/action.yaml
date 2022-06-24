@@ -1,0 +1,94 @@
+name: Configuring model's property
+description: 'Sets a property in an Azure ML Model'
+
+inputs:
+  modelName:
+    description: 'Name of the model to configure or set.'
+    required: true
+  modelVersion:
+    description: 'Version of the model. It can be indicated using a given model version, like 22, or using tokens like `latest` indicating the latest version of the model in the registry.'
+    required: true
+    default: latest
+  property:
+    description: 'Name of the property you want to set. Properties are treated as `JSON` objects so dot notation works.'
+    required: true
+  value:
+    description: 'Value you want to set.'
+    required: true
+  exclusive:
+    description: 'Indicates if the given value in the given property can be exclusively on one model version only. If this is `true` and other model has the same property value, then it will be remove or replaced.'
+    required: false
+    default: 'false'
+  replaceExistingWith:
+    description: 'When `exclusive` is `true`, use this parameter to indicate the value you want to change the existing property to. If empty, property is removed.'
+    required: true
+    default: ''
+  isMlflowStage:
+    description: 'Indicates if the tag correspond to an mlflow stage'
+    required: true
+    default: 'false'
+  workspaceName:
+    description: 'Name of the workspace to work against.'
+    required: true
+  resourceGroup:
+    description: 'Name of the resource group where the workspace is placed.'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Configuring model's property
+      shell: bash
+      run: |
+        set -e
+        SUBSCRIPTION_ID=$(az account show | jq -r ".id")
+        
+        if ${{ inputs.exclusive }}; then
+          echo "::debug::Removing or replacing tag ${{ inputs.property }} from model ${{ inputs.modelName }}"
+          if [[ "${{ inputs.replaceExistingWith }}" == "" ]]; then
+            python -m jobtools ${{ github.action_path }}/tags.py remove_tag \
+            --subscription-id $SUBSCRIPTION_ID \
+            --workspace-name ${{ inputs.workspaceName }} \
+            --resource-group ${{ inputs.resourceGroup }} \
+            --name ${{ inputs.modelName }} \
+            --tag ${{ inputs.property }}
+          else
+            echo "::debug::Replacing tag ${{ inputs.property }} from model ${{ inputs.modelName }}:$VERSION_REST with value ${{ inputs.replaceExistingWith }}"
+            python -m jobtools ${{ github.action_path }}/tags.py add_tag \
+            --subscription-id $SUBSCRIPTION_ID \
+            --workspace-name ${{ inputs.workspaceName }} \
+            --resource-group ${{ inputs.resourceGroup }} \
+            --name ${{ inputs.modelName }} \
+            --version "${{ inputs.property }}=${{ inputs.value }}"  \
+            --tag ${{ inputs.property }} \
+            --value ${{ inputs.replaceExistingWith }}
+          fi
+        fi
+
+        if [[ "${{ inputs.modelVersion }}" == "latest" ]]; then
+          echo "::debug::Identifying latest version of the model ${{ inputs.modelName }}"
+          MODEL_VERSION=$(az ml model list --name ${{ inputs.modelName }} -g ${{ inputs.resourceGroup }} -w ${{ inputs.workspaceName }} | jq -r '.[0].version')
+        else
+          MODEL_VERSION=${{ inputs.modelVersion }}
+        fi
+        
+        echo "::debug::Applying tag ${{ inputs.property }}=${{ inputs.value }} to model ${{ inputs.modelName }}:$MODEL_VERSION"
+        python -m jobtools ${{ github.action_path }}/tags.py add_tag \
+          --subscription-id $SUBSCRIPTION_ID \
+          --workspace-name ${{ inputs.workspaceName }} \
+          --resource-group ${{ inputs.resourceGroup }} \
+          --name ${{ inputs.modelName }} \
+          --version $MODEL_VERSION  \
+          --tag ${{ inputs.property }} \
+          --value ${{ inputs.value }}
+
+        if ${{ inputs.isMlflowStage }}; then
+          echo "::debug::Moving model ${{ inputs.modelName }}:$MODEL_VERSION to stage ${{ inputs.value }}"
+          python -m jobtools ${{ github.action_path }}/tags.py update_model_stage \
+            --subscription-id $SUBSCRIPTION_ID \
+            --workspace-name ${{ inputs.workspaceName }} \
+            --resource-group ${{ inputs.resourceGroup }} \
+            --name ${{ inputs.modelName }} \
+            --version $MODEL_VERSION  \
+            --stage ${{ inputs.value }}
+        fi
