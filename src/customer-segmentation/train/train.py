@@ -15,9 +15,9 @@ sys.path.append('customer-segmentation/')
 from utils.util import calculate_wcss, get_optimal_k, normalise_data
 
 # To run this file locally, run the following commands:
-# conda env create --name transformers-torch-19-dev -f \
-# .aml/environments/transformers-torch-19-dev/conda_dependencies.yml
-# conda activate transformers-torch-19-dev
+# conda env create --name py38-segmentation-dev -f \
+# .aml/environments/py38-segmentation-dev/conda_dependencies.yml
+# conda activate py38-segmentation-dev
 # from the aidev-mlops/src, run:
 # python customer-segmentation/train/train.py True
 
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     pipeline = Pipeline(steps=[('ptransformer', ptransformer), ('mini_batch_k_means', km)],
                         verbose=True)
 
-    pipeline.fit(train_data_normalised)
+    pipeline.fit(train_data)
 
     # Log a scikit-learn model as an MLflow artifact for the
     # current run
