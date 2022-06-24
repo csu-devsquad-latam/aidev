@@ -2,9 +2,11 @@ name: environment-CD
 
 on:
   workflow_dispatch:
-  push:
+  push:      
     branches: [ main ]
-  
+    paths:
+      - .aml/environments/**
+      
 jobs:
   deployment:
     environment: dev
@@ -46,4 +48,3 @@ jobs:
           validateOnly: false
           workspaceName: ${WORKSPACENAME}
           resourceGroup: ${RESOURCEGROUPNAME}
-      

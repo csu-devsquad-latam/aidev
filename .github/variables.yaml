@@ -3,4 +3,5 @@
   KEYVAULTNAME: mlwexp6167533864
   MODELNAME: mini-batch-k-means-customer-segmentation
   DESCRIPTION: 'Given a set of customer features, this model will output the customer profile.'
-  CONDAENVNAME: transformers-torch-19-dev
+  CONDAENVNAME: py38-segmentation-dev
+  
