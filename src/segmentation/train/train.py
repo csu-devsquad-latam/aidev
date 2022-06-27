@@ -28,8 +28,9 @@ def get_training_data():
     """Get training data."""
     if LOCAL:
         # run local:
-        # load training dataset
-        data = pd.read_csv(".aml/data/online-retail-frm-train.csv") # for local debugging or pytest from aidev/
+        # for local debugging or pytest from aidev/
+        # load training dataset from local
+        data = pd.read_csv(".aml/data/online-retail-frm-train.csv")
 
     else:
         # run in cloud:
@@ -39,7 +40,7 @@ def get_training_data():
 
         dataset = Dataset.get_by_name(workspace=workspace,
                                  name='online-retail-frm-train')
-        
+
         # Load a TabularDataset into pandas DataFrame
         data = dataset.to_pandas_dataframe()
 
