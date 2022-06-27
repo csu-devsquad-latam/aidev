@@ -8,12 +8,12 @@ This is a common use case where businesses want to gain some insight into their 
 - [Online Retail Data](https://archive.ics.uci.edu/ml/datasets/online+retail) | This is a transnational data set which contains all the transactions occurring between 01/12/2010 and 09/12/2011 for a UK-based and registered non-store online retail.The company mainly sells unique all-occasion gifts. Many customers of the company are wholesalers.
 
 ## Notebooks
-- [data/](./online-retail/data/) : contain a copy of raw data, transformed data. 
-- [notebooks/](./online-retail/notebooks/)
-    - [00-data/](./online-retail/notebooks/) : data exploration
-    - [01-clustering/](./online-retail/notebooks/) : clustering methods
-    - [02-interpretation/](./online-retail/notebooks/)
-- [outputs/](./online-retail/outputs/) : contain data science and machine learning outputs e.g. models, etc.
+- [data/](../.aml/data/) : contain a copy of raw data, transformed data. 
+- [notebooks/](./)
+    - [00-data/](./00-data/) : data exploration
+    - [01-clustering/](./01-clustering/) : clustering methods
+    - [02-interpretation/](./02-interpretation/)
+- [models/](../.aml/models/) : contain data science and machine learning outputs e.g. models, etc.
 
 ## References
 ### Blog on DS/ML
