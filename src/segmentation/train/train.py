@@ -10,8 +10,8 @@ import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
-#sys.path.append('segmentation/')
-sys.path.append('src/segmentation/') # for local debugging or pytest from aidev/
+sys.path.append('segmentation/')
+#sys.path.append('src/segmentation/') # for local debugging or pytest from aidev/
 from utils.util import calculate_wcss, get_optimal_k, normalise_data
 
 # To run this file locally, run the following commands:
