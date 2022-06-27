@@ -10,16 +10,16 @@ import mlflow
 import mlflow.sklearn
 import numpy as np
 import pandas as pd
-sys.path.append('customer-segmentation/')
-# sys.path.append('src/customer-segmentation/') # for local debugging
+sys.path.append('segmentation/')
+#sys.path.append('src/segmentation/') # for local debugging or pytest from aidev/
 from utils.util import calculate_wcss, get_optimal_k, normalise_data
 
 # To run this file locally, run the following commands:
 # conda env create --name py38-segmentation-dev -f \
 # .aml/environments/py38-segmentation-dev/conda_dependencies.yml
 # conda activate py38-segmentation-dev
-# from the aidev-mlops/src, run:
-# python customer-segmentation/train/train.py True
+# from the aidev-mlops, run:
+# python src/customer-segmentation/train/train.py True
 
 LOCAL = False
 LOG = False
@@ -28,9 +28,9 @@ def get_training_data():
     """Get training data."""
     if LOCAL:
         # run local:
-        # load training dataset
-        data = pd.read_csv("../.aml/data/online-retail-frm-train.csv")
-        # data = pd.read_csv(".aml/data/online-retail-frm-train.csv") # for local debugging
+        # for local debugging or pytest from aidev/
+        # load training dataset from local
+        data = pd.read_csv(".aml/data/online-retail-frm-train.csv")
 
     else:
         # run in cloud:
@@ -40,6 +40,7 @@ def get_training_data():
 
         dataset = Dataset.get_by_name(workspace=workspace,
                                  name='online-retail-frm-train')
+
         # Load a TabularDataset into pandas DataFrame
         data = dataset.to_pandas_dataframe()
 
