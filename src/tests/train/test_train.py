@@ -1,6 +1,5 @@
-"""
-A set of tests for train.py
-"""
+"""A set of tests for train.py ."""
+
 import sys
 sys.path.append( 'src/segmentation/train/' )
 #sys.path.append( '/segmentation/train/' )
