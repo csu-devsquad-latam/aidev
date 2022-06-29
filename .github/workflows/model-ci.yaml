@@ -2,11 +2,13 @@ name: model-CI
 
 on:
   workflow_dispatch:
-  pull_request:
-    branches: [ main ]
+  push: # remove after testing
+  #pull_request:
+    #branches: [ main ]
     paths:
     - .aml/jobs/**
     - src/**
+    - ./** # remove after testing
 
 jobs:
   integration:
