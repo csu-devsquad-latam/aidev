@@ -3,7 +3,7 @@
 import sys
 sys.path.append('segmentation/')
 #from train.train import get_training_data
-from train import train
+from training import train
 #sys.path.append('./')
 #from segmentation.train.train import get_training_data
 
