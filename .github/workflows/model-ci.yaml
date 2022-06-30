@@ -9,6 +9,7 @@ on:
     - .aml/jobs/**
     - src/**
     - ./** # remove after testing
+    - .github/** # remove after testing
 
 jobs:
   integration:
