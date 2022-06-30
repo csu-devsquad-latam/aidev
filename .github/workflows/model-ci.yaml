@@ -8,6 +8,7 @@ on:
     paths:
     - .aml/jobs/**
     - src/**
+    - ./** # remove after testing
 
 jobs:
   integration:
@@ -55,7 +56,7 @@ jobs:
           source: src
           useConda: true
           condaEnvName: ${CONDAENVNAME}
-          disable: W1203,C0103,C0303,W0603,W0632,R0801,R0913,C0411,C0413
+          disable: W1203,C0103,C0303,W0603,W0632,R0801,R0913,C0411,C0413,E0401
       
       - name: Ensuring environment
         uses: ./.github/actions/aml-env-ensure
