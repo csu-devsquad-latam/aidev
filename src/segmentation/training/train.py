@@ -21,7 +21,6 @@ from utils.util import calculate_wcss, get_optimal_k, normalise_data
 # python segmentation/train/train.py True
 
 LOCAL = False
-#LOCAL = True # aidev/src$ python -m pytest
 LOG = False
 
 def get_training_data():
