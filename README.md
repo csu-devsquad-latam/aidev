@@ -55,10 +55,10 @@ Change directories to `.aml/environments/`, you will find the conda environment 
 In this directory, run this commands, giving a name, `py38_cluster_dev`, to this environment:
 
 ```
-conda env create ---name py38_cluser_dev --file conda_dependencies.yml
+conda env create ---name py38_cluster_dev --file conda_dependencies.yml
 ```
 
-This repo is tested with `conda==4.13.0`. If `conda` notifies to do an update, consider updating `conda`. Within that message, it will give command such as
+This repo is tested with `conda==4.13.0`. If `conda` notifies to do an update, try updating `conda`. Within that message, it will give command such as
 
 ```
 conda update -n base -c defaults conda
@@ -84,6 +84,42 @@ Note also that you may have to close and re-open your VSCode session in order fo
 
 ## Open and follow notebooks
 
-n VS code, open notebooks/00-explore-data-00.ipynb. In the upper right of VS Code, click on "Select Kernel" and choose the environment you just created in the previous step (`py38_cluster_dev`). If you encounter any issues creating the environment, you can just use the `py38_cluster_dev` environment.
+In VS code, open notebooks/00-explore-data-00.ipynb. In the upper right of VS Code, click on "Select Kernel" and choose the environment you just created in the previous step (`py38_cluster_dev`). If you encounter any issues creating the environment, you can just use the `py38_cluster_dev` environment.
 
 Follow the notebooks in order and follow instructions there.
+
+## From notebooks to operational code
+
+The notebook of most interest in moving from notebooks to operational code is:
+
+01-clustering-by-mini-batch-k-means-mlflow.ipynb
+
+This notebook creates an experiment in our AML workspace, then creates a ML pipeline using two algorithms:
+
+1. power transformer
+2. k-means
+
+The K-means algorithm prefers data that fits a standard distribution. The power transformer will transform the data into that standard distribution k-means prefers and then k-means will produce the output. 
+
+So the flow goes like this:
+
+input raw customer data -> power transform transforms data -> output tranformed data -> k-means predicts based on transformed data -> outputs a profile
+
+
+
+
+``` json
+{
+  "input_data": {
+    "columns": [
+      "Recency(Days)",
+      "Frequency",
+      "Monetary(£)"
+    ],
+    "index": [0,1,2,3],
+    "data": [[12.328482, 109.432531, 1647.358550],
+          [85.062131, 33.097033, 553.386070],
+          [84.559221, 6.956482, 146.513349], 
+          [12.817094, 22.335451, 348.376235]]
+  }
+}
