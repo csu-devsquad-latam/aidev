@@ -7,10 +7,13 @@ An online retailer would like to gain insights through its customers buying beha
 
 This is a common use case where businesses want to gain some insight into their clientele, understand different groups of customers they are dealing with, so that businesses can customise the services or campaigns to target individual groups to serve them more effectively.
 
+Note that this example make use of [Azure Machine Learning](https://docs.microsoft.com/en-gb/azure/machine-learning/) with [Github Actions](https://docs.github.com/en/actions). 
+
 ## Data
 [Online Retail Data](https://archive.ics.uci.edu/ml/datasets/online+retail) | This is a transnational data set which contains all the transactions occurring between 01/12/2010 and 09/12/2011 for a UK-based and registered non-store online retail.The company mainly sells unique all-occasion gifts. Many customers of the company are wholesalers.
 
 # Getting started with AI development and MLOps
+
 ## Create azure resources 
 
 For this learning experience, you will need to create resources in Azure. 
