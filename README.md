@@ -1,7 +1,7 @@
 
 # Scenario : Customer Segmentation
 
-The scenario we have chosen for this exercise is the following:
+The scenario we have chosen for this tutorial exercise is the following:
 
 An online retailer would like to gain insights through its customers buying behaviours. Given a record of customers online transactions, we perform Customer Value Analysis, described by [Recency, Frequency, Monetary value](https://clevertap.com/blog/rfm-analysis/). These characteristics are then used to segment the customers into clusters via machine learning techniques, in this case, k-means clustering. 
 
@@ -85,8 +85,16 @@ Note that this procedure can also be done on the terminal within the AML studio.
 
 Note also that you may have to close and re-open your VSCode session in order for your new conda environment to appear as a selectable Kernel in Jupyter Notebooks.
 
-## Access to Notebooks in VSCode
+## Notebooks
+
+To access Notebooks in VSCode, open VSCode. 
 
 In VS code, open [00-explore-and-prepare-data.ipynb](https://github.com/csu-devsquad-latam/aidev/blob/main/notebooks/00-data/00-explore-and-prepare-data.ipynb). In the upper right of VS Code, click on "Select Kernel" and choose the environment you just created in the previous step (`py38_cluster_dev`). 
 
-Go [here](https://github.com/csu-devsquad-latam/aidev/tree/main/notebooks) to follow the series of notebooks.
+The series of [notebooks](https://github.com/csu-devsquad-latam/aidev/tree/main/notebooks) bring you from raw data to model creation. 
+
+## MLOps
+Code related to MLOps using Github Action can be found [here](https://github.com/csu-devsquad-latam/aidev/tree/main/src)
+
+# Disclaimer
+This publication is provided as is without any express or implied warranties. While every effort has been taken to ensure the accuracy of the information contained in this publication, the authors/maintainers/contributors assume no responsibility for errors or omissions, or for damages resulting from the use of the information contained herein.
