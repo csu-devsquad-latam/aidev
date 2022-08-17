@@ -85,8 +85,8 @@ Note that this procedure can also be done on the terminal within the AML studio.
 
 Note also that you may have to close and re-open your VSCode session in order for your new conda environment to appear as a selectable Kernel in Jupyter Notebooks.
 
-## Open and follow notebooks
+## Access to Notebooks in VSCode
 
-n VS code, open notebooks/00-explore-data-00.ipynb. In the upper right of VS Code, click on "Select Kernel" and choose the environment you just created in the previous step (`py38_cluster_dev`). If you encounter any issues creating the environment, you can just use the `py38_cluster_dev` environment.
+In VS code, open [00-explore-and-prepare-data.ipynb](https://github.com/csu-devsquad-latam/aidev/blob/main/notebooks/00-data/00-explore-and-prepare-data.ipynb). In the upper right of VS Code, click on "Select Kernel" and choose the environment you just created in the previous step (`py38_cluster_dev`). 
 
-Follow the notebooks in order and follow instructions there.
+Go [here](https://github.com/csu-devsquad-latam/aidev/tree/main/notebooks) to follow the series of notebooks.
