@@ -101,12 +101,11 @@ This notebook creates an experiment in our AML workspace, then creates a ML pipe
 
 The K-means algorithm prefers data that fits a standard distribution. The power transformer will transform the data into that standard distribution k-means prefers and then k-means will produce the output. 
 
-So the flow goes like this:
+So the pipeline goes like this:
 
 input raw customer data -> power transform transforms data -> output tranformed data -> k-means predicts based on transformed data -> outputs a profile
 
-
-
+Sample input here:
 
 ``` json
 {
@@ -123,3 +122,18 @@ input raw customer data -> power transform transforms data -> output tranformed 
           [12.817094, 22.335451, 348.376235]]
   }
 }
+
+If you compare:
+
+01-clustering-by-mini-batch-k-means-mlflow.ipynb
+
+src/segmentation/train/train.py
+
+You will see a lot of similarities and begin to understand how the notebook and our investigations inform our operational code.
+
+# Workflows / MLOps
+
+# leaving off comment:
+# take a look at model-ci / model-cd and how it ties to train.job.yml
+# link to architecture.drawio.png
+# flesh out architecture.md
