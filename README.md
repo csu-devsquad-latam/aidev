@@ -1,16 +1,19 @@
 
-# Scenario
+# Scenario : Customer Segmentation
 
-The scenario we have chosen for this exercise is the following:
+The scenario we have chosen for this tutorial exercise is the following:
 
-An online retailer would like to gain insights through its customers buying behaviours. Given a record of customers online transactions, we perform Customer Value Analysis, described by [Recency, Frequency, Monetary value](https://clevertap.com/blog/rfm-analysis/). These characteristics are then used to segment the customers into clusters via machine learning techniques, k-means clustering. 
+An online retailer would like to gain insights through its customers buying behaviours. Given a record of customers online transactions, we perform Customer Value Analysis, described by [Recency, Frequency, Monetary value](https://clevertap.com/blog/rfm-analysis/). These characteristics are then used to segment the customers into clusters via machine learning techniques, in this case, k-means clustering. 
 
 This is a common use case where businesses want to gain some insight into their clientele, understand different groups of customers they are dealing with, so that businesses can customise the services or campaigns to target individual groups to serve them more effectively.
+
+Note that this example makes use of [Azure Machine Learning](https://docs.microsoft.com/en-gb/azure/machine-learning/) with [Github Actions](https://docs.github.com/en/actions). 
 
 ## Data
 [Online Retail Data](https://archive.ics.uci.edu/ml/datasets/online+retail) | This is a transnational data set which contains all the transactions occurring between 01/12/2010 and 09/12/2011 for a UK-based and registered non-store online retail.The company mainly sells unique all-occasion gifts. Many customers of the company are wholesalers.
 
 # Getting started with AI development and MLOps
+
 ## Create azure resources 
 
 For this learning experience, you will need to create resources in Azure. 
@@ -82,8 +85,16 @@ Note that this procedure can also be done on the terminal within the AML studio.
 
 Note also that you may have to close and re-open your VSCode session in order for your new conda environment to appear as a selectable Kernel in Jupyter Notebooks.
 
-## Open and follow notebooks
+## Notebooks
 
-n VS code, open notebooks/00-explore-data-00.ipynb. In the upper right of VS Code, click on "Select Kernel" and choose the environment you just created in the previous step (`py38_cluster_dev`). If you encounter any issues creating the environment, you can just use the `py38_cluster_dev` environment.
+To access Notebooks in VSCode, open VSCode. 
 
-Follow the notebooks in order and follow instructions there.
+In VS code, open [00-explore-and-prepare-data.ipynb](https://github.com/csu-devsquad-latam/aidev/blob/main/notebooks/00-data/00-explore-and-prepare-data.ipynb). In the upper right of VS Code, click on "Select Kernel" and choose the environment you just created in the previous step (`py38_cluster_dev`). 
+
+The series of [notebooks](https://github.com/csu-devsquad-latam/aidev/tree/main/notebooks) bring you from raw data to model creation. 
+
+## MLOps
+Code related to MLOps using Github Action can be found [here](https://github.com/csu-devsquad-latam/aidev/tree/main/src)
+
+# Disclaimer
+This publication is provided as is without any express or implied warranties. While every effort has been taken to ensure the accuracy of the information contained in this publication, the authors/maintainers/contributors assume no responsibility for errors or omissions, or for damages resulting from the use of the information contained herein.
