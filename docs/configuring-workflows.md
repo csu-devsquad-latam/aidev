@@ -8,16 +8,17 @@ For high-level information about these workflows and the workloads they affect, 
 
 ## `environment-ci` Workflow
 
-This workflow performs the following steps in one job:
-
-1. Checks out code to the github-hosted runner
-2. Installs the Azure Machine Learning cli
-3. Prepares Conda
-4. Logs into the AML Worksapce using Azure credentials
-5. Builds the Conda environment
-6. Verifies Conda (python) Environment exists in AML Workspace
-7. If it does not exist, workflow will generate a warning (not a failure)
-8. If it does exist, workflow will do nothing further
+This workflow performs 1 job with the following steps:
+1. `integration`
+    - Checks out code to the github-hosted runner.
+    - Loads the environment from YAML. 
+    - Installs the Azure Machine Learning cli.
+    - Setup Conda.
+    - Logs into the AML Worksapce using Azure credentials.
+    - Builds the Conda environment.
+    - Verifies Conda (python) Environment exists in AML Workspace.
+      - If it does not exist, workflow will generate a warning (not a failure).
+      - If it does exist, workflow will do nothing further.
 
 This workflow expects a secret containing Azure credentials to be present in your repository.
 
@@ -60,16 +61,18 @@ by going to the "Actions" tab, selecting the workflow, and clicking "Run workflo
 
 ## `environment-cd` Workflow
 
-This workflow performs the following steps in one job:
+This workflow performs 1 job with the following steps:
 
-1. Checks out code to the github-hosted runner
-2. Installs the Azure Machine Learning cli
-3. Prepares Conda
-4. Logs into the AML Workspace using Azure credentials
-5. Builds the Conda environment
-6. Verifies Conda (python) Environment exists in AML Workspace
-7. If it does not exist, workflow will deploy the environment.
-8. If it does exist, workflow will do nothing further
+1. `deployment`
+  - Checks out code to the github-hosted runner
+  - Loads the environment from YAML. 
+  - Installs the Azure Machine Learning cli.
+  - Setup Conda.
+  - Logs into the AML Workspace using Azure credentials.
+  - Builds the Conda environment.
+    - Verifies Conda (python) Environment exists in AML Workspace.
+      - If it does not exist, workflow will generate a warning (not a failure).
+      - If it does exist, workflow will do nothing further.
 
 This workflow expects a secret containing Azure credentials to be present in your repository.
 
@@ -97,7 +100,6 @@ Make sure you have the latest version of the Azure cli: https://docs.microsoft.c
     (...)
   }
   ```
-  
 
 Add a repository secret called AZURE_CREDENTIALS and paste the JSON output as the value of the secret.
 
@@ -106,7 +108,7 @@ Add a repository secret called AZURE_CREDENTIALS and paste the JSON output as th
 This workflow is set to run on [`workflow_dispatch`](https://github.blog/changelog/2020-07-06-github-actions-manual-triggers-with-workflow_dispatch/), which is triggered by:
 
 - push on branch `main`
-- changes in files under `.aml/environments/**`
+- with changes in files under `.aml/environments/**`
 
 If you would like to manually run the workflow, you may do so via the workflow_dispatch mechanism by going to your repo,
 going to the Actions tab, selecting the workflow, and clicking "Run workflow." This will only work after your workflow has run via automation at least once.
@@ -124,7 +126,9 @@ This workflow performs 1 job, each with several steps as follows:
     - Generate AML Workspace configuration file.
     - Run Pylint.
     - Run unit tests.
-    - Ensure Conda environment exist, if not, create one.
+    - Verifies Conda (python) Environment exists in AML Workspace.
+      - If it does not exist, workflow will generate a warning (not a failure).
+      - If it does exist, workflow will do nothing further.
     - Runs model training job, and produce a trained model as the output.
 
 Source code for the training routine is under: `src/segmentation/train/train.py`
@@ -177,7 +181,9 @@ This workflow performs 3 jobs, each with several steps as follows:
     - Loads the environment from YAML. 
     - Installs the Azure Machine Learning cli.
     - Logs into the AML Workspace using Azure credentials.
-    - Ensure Conda environment exist, if not, build one. 
+    - Verifies Conda (python) Environment exists in AML Workspace.
+      - If it does not exist, workflow will generate a warning (not a failure).
+      - If it does exist, workflow will do nothing further.
     - Runs model training job, and produce a trained model as the output.
 2. `register-model`
     - Checks out code to the github-hosted runner.
