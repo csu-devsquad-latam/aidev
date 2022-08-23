@@ -1,12 +1,21 @@
 # How to create and configure GitHub Actions workflows
-
-## Architecture
-
-For high-level information about these workflows and the workloads they affect, please see this diagram:
+For convenience, the architecture diagram is shown here again. Refer to [architecture.md](./architecure.md) for information about this architecture. 
 
 ![vscode](assets/architecture.drawio.png)
 
-## `environment-ci` Workflow
+Below illustrate what are the tasks within the workflows of `environment-CI`, `environmnet-CD`, `model-CI` and `model-CD` are, and the workloads they affect. 
+
+Relevant files related to Github Actions can be found in the folder [.github/actions/](../.github/actions/) and [.github/workflows/](../.github/workflows/)
+
+# Workflows
+
+In this example, there are 4 workflows
+- [`environment-ci`](./configuring-workflows.md/#environment-ci-workflow)
+- [`environmnet-cd`](./configuring-workflows.md/#environment-cd-workflow)
+- [`model-ci`](./configuring-workflows.md/#model-ci-workflow)
+- [`model-cd`](./configuring-workflows.md/#model-cd-workflow)
+
+## `environment-ci`
 
 This workflow performs 1 job with the following steps:
 1. `integration`
@@ -59,7 +68,7 @@ This workflow is set to run on [`workflow_dispatch`](https://github.blog/changel
 If you would like to manually run the workflow, you may do so via the "workflow_dispatch" mechanism in your repo,
 by going to the "Actions" tab, selecting the workflow, and clicking "Run workflow". This will only work after your workflow has run via automation at least once.
 
-## `environment-cd` Workflow
+## `environment-cd`
 
 This workflow performs 1 job with the following steps:
 
@@ -84,7 +93,7 @@ This workflow is set to run on [`workflow_dispatch`](https://github.blog/changel
 If you would like to manually run the workflow, you may do so via the workflow_dispatch mechanism by going to your repo,
 going to the Actions tab, selecting the workflow, and clicking "Run workflow." This will only work after your workflow has run via automation at least once.
 
-## `model-ci` workflow
+## `model-ci`
 
 This workflow performs 1 job, each with several steps as follows: 
 1. `integration`
@@ -115,7 +124,7 @@ This workflow is set to run on [`workflow_dispatch`](https://github.blog/changel
 
 If you would like to manually run the workflow, you may do so via the "workflow_dispatch" mechanism in your repository, by going to the "Actions" tab, selecting the workflow, and clicking "Run workflow". This will only work after your workflow has run via automation at least once.
 
-## `model-cd` workflow
+## `model-cd`
 
 This workflow performs 3 jobs, each with several steps as follows: 
 1. `build`
