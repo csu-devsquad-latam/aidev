@@ -1,11 +1,13 @@
 # How to create and configure GitHub Actions workflows
-For convenience, the architecture diagram is shown here again. Refer to [architecture.md](./architecure.md) for information about this architecture. 
+Diagram below shows the 4 workflows that are used in this example, that illustrates what are the tasks within the workflows of `environment-CI`, `environmnet-CD`, `model-CI` and `model-CD` are, and the workloads they affect. 
+
+Relevant files related to Github Actions can be found in the folder [.github/actions/](../.github/actions/) and [.github/workflows/](../.github/workflows/).
+
+Refer to [architecture.md](./architecure.md) for information about this architecture. 
 
 ![vscode](assets/architecture.drawio.png)
 
-Below illustrate what are the tasks within the workflows of `environment-CI`, `environmnet-CD`, `model-CI` and `model-CD` are, and the workloads they affect. 
 
-Relevant files related to Github Actions can be found in the folder [.github/actions/](../.github/actions/) and [.github/workflows/](../.github/workflows/)
 
 # Workflows
 
