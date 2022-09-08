@@ -87,15 +87,15 @@ Note also that you may have to close and re-open your VSCode session in order fo
 
 ## Open and follow notebooks
 
-In VS code, open notebooks/00-explore-data-00.ipynb. In the upper right of VS Code, click on "Select Kernel" and choose the environment you just created in the previous step (`py38_cluster_dev`). If you encounter any issues creating the environment, you can just use the `py38_cluster_dev` environment.
+In VS code, open [00-explore-data-and-prepare-data.ipynb](./notebooks/00-data/00-explore-and-prepare-data.ipynb). In the upper right of VS Code, click on "Select Kernel" and choose the environment you just created in the previous step (`py38_cluster_dev`). If you encounter any issues creating the environment, you can just use the `py38_cluster_dev` environment.
 
-Follow the notebooks in order and follow instructions there.
+For more information about the notebooks, see this [Readme.md](./notebooks/README.md).
 
 ## From notebooks to operational code
 
 The notebook of most interest in moving from notebooks to operational code is:
 
-01-clustering-by-mini-batch-k-means-mlflow.ipynb
+[01-clustering-by-mini-batch-k-means-mlflow.ipynb](./notebooks/01-clustering/01-clustering-by-mini-batch-k-means-mlflow.ipynb)
 
 This notebook creates an experiment in our AML workspace, then creates a ML pipeline using two algorithms:
 
@@ -125,18 +125,11 @@ Sample input here:
           [12.817094, 22.335451, 348.376235]]
   }
 }
+```
 
-If you compare:
+If you compare [01-clustering-by-mini-batch-k-means-mlflow.ipynb](./notebooks/01-clustering/01-clustering-by-mini-batch-k-means-mlflow.ipynb), and [train.py](./src/segmentation/training/train.py), you will see a lot of similarities and begin to understand how the notebook and our investigations inform our operational code.
 
-01-clustering-by-mini-batch-k-means-mlflow.ipynb
+## Workflows and MLOps
+[Architecture.md](./docs/architecure.md) illustrates the components that made up this sample solution, and how they interact with one another.
 
-src/segmentation/train/train.py
-
-You will see a lot of similarities and begin to understand how the notebook and our investigations inform our operational code.
-
-# Workflows / MLOps
-
-# leaving off comment:
-# take a look at model-ci / model-cd and how it ties to train.job.yml
-# link to architecture.drawio.png
-# flesh out architecture.md
+Github Actions [workflows](./docs/configuring-workflows.md) explains how to configure necessary actions to enable CI/CD. 
