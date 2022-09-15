@@ -58,10 +58,10 @@ Change directories to `.aml/environments/`, you will find the conda environment 
 In this directory, run this commands, giving a name, `py38_cluster_dev`, to this environment:
 
 ```
-conda env create ---name py38_cluser_dev --file conda_dependencies.yml
+conda env create ---name py38_cluster_dev --file conda_dependencies.yml
 ```
 
-This repo is tested with `conda==4.13.0`. If `conda` notifies to do an update, consider updating `conda`. Within that message, it will give command such as
+This repo is tested with `conda==4.13.0`. If `conda` notifies to do an update, try updating `conda`. Within that message, it will give command such as
 
 ```
 conda update -n base -c defaults conda
@@ -85,16 +85,51 @@ Note that this procedure can also be done on the terminal within the AML studio.
 
 Note also that you may have to close and re-open your VSCode session in order for your new conda environment to appear as a selectable Kernel in Jupyter Notebooks.
 
-## Notebooks
+## Open and follow notebooks
 
-To access Notebooks in VSCode, open VSCode. 
+In VS code, open [00-explore-data-and-prepare-data.ipynb](./notebooks/00-data/00-explore-and-prepare-data.ipynb). In the upper right of VS Code, click on "Select Kernel" and choose the environment you just created in the previous step (`py38_cluster_dev`). If you encounter any issues creating the environment, you can just use the `py38_cluster_dev` environment.
 
-In VS code, open [00-explore-and-prepare-data.ipynb](https://github.com/csu-devsquad-latam/aidev/blob/main/notebooks/00-data/00-explore-and-prepare-data.ipynb). In the upper right of VS Code, click on "Select Kernel" and choose the environment you just created in the previous step (`py38_cluster_dev`). 
+For more information about the notebooks, see this [Readme.md](./notebooks/README.md).
 
-The series of [notebooks](https://github.com/csu-devsquad-latam/aidev/tree/main/notebooks) bring you from raw data to model creation. 
+## From notebooks to operational code
 
-## MLOps
-Code related to MLOps using Github Action can be found [here](https://github.com/csu-devsquad-latam/aidev/tree/main/src)
+The notebook of most interest in moving from notebooks to operational code is:
 
-# Disclaimer
-This publication is provided as is without any express or implied warranties. While every effort has been taken to ensure the accuracy of the information contained in this publication, the authors/maintainers/contributors assume no responsibility for errors or omissions, or for damages resulting from the use of the information contained herein.
+[01-clustering-by-mini-batch-k-means-mlflow.ipynb](./notebooks/01-clustering/01-clustering-by-mini-batch-k-means-mlflow.ipynb)
+
+This notebook creates an experiment in our AML workspace, then creates a ML pipeline using two algorithms:
+
+1. power transformer
+2. k-means
+
+The K-means algorithm prefers data that fits a standard distribution. The power transformer will transform the data into that standard distribution k-means prefers and then k-means will produce the output. 
+
+So the pipeline goes like this:
+
+input raw customer data -> power transform transforms data -> output tranformed data -> k-means predicts based on transformed data -> outputs a profile
+
+Sample input here:
+
+``` json
+{
+  "input_data": {
+    "columns": [
+      "Recency(Days)",
+      "Frequency",
+      "Monetary(£)"
+    ],
+    "index": [0,1,2,3],
+    "data": [[12.328482, 109.432531, 1647.358550],
+          [85.062131, 33.097033, 553.386070],
+          [84.559221, 6.956482, 146.513349], 
+          [12.817094, 22.335451, 348.376235]]
+  }
+}
+```
+
+If you compare [01-clustering-by-mini-batch-k-means-mlflow.ipynb](./notebooks/01-clustering/01-clustering-by-mini-batch-k-means-mlflow.ipynb), and [train.py](./src/segmentation/training/train.py), you will see a lot of similarities and begin to understand how the notebook and our investigations inform our operational code.
+
+## Workflows and MLOps
+[Architecture.md](./docs/architecure.md) illustrates the components that made up this sample solution, and how they interact with one another.
+
+Github Actions [workflows](./docs/configuring-workflows.md) explains how to configure necessary actions to enable CI/CD. 
